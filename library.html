@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wallpaper Library</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallpaper Library | Ben Draws</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <header class="p-4 bg-black text-white text-center text-2xl font-bold">Ben Draws - Library</header>
-  <main class="p-6">
-    <h1 class="text-2xl mb-4">All Wallpapers - £2 each</h1>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-      <!-- Replace these with actual image previews -->
-      <div class="bg-white rounded-xl shadow hover:scale-105 transition-transform p-4">Wallpaper 1</div>
-      <div class="bg-white rounded-xl shadow hover:scale-105 transition-transform p-4">Wallpaper 2</div>
-      <div class="bg-white rounded-xl shadow hover:scale-105 transition-transform p-4">Wallpaper 3</div>
+<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="flex items-center justify-between p-6 md:px-12">
+    <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
+    <nav class="space-x-6 text-sm">
+      <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+      <a href="commissions.html" class="hover:text-blue-400 transition">Commissions</a>
+    </nav>
+  </header>
+
+  <!-- Page Title -->
+  <section class="text-center px-4 py-10">
+    <h1 class="text-4xl font-bold mb-4">Wallpaper Library</h1>
+    <p class="text-zinc-400 text-lg">Browse all available wallpapers — each one is original and just <strong>£1.99</strong>.</p>
+  </section>
+
+  <!-- Wallpaper Grid -->
+  <section class="px-6 md:px-12 pb-20">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <!-- Example Wallpaper Card -->
+      <div class="bg-zinc-800 rounded-xl overflow-hidden shadow hover:scale-105 transition transform">
+        <img src="wallpaper1.jpg" alt="Wallpaper 1" class="w-full h-60 object-cover">
+        <div class="p-4">
+          <h2 class="text-lg font-semibold">Wallpaper Title</h2>
+          <p class="text-zinc-400 text-sm">£2</p>
+        </div>
+      </div>
+
+      <!-- Repeat above block for each wallpaper -->
     </div>
-  </main>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
+    © 2025 Ben Draws. Custom commissions: £7.99.
+  </footer>
 </body>
 </html>
