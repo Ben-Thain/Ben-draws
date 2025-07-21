@@ -31,6 +31,10 @@
   <!-- Commission Form -->
   <section class="px-6 md:px-12 pb-20">
     <form action="https://getform.io/f/bnlxdrxb" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6 max-w-2xl mx-auto">
+      
+      <!-- Redirect on Success -->
+      <input type="hidden" name="_redirect" value="https://ben-draws.pages.dev/thankyou.html">
+
       <div>
         <label for="name" class="block text-sm font-medium mb-1">Your Name</label>
         <input type="text" name="name" id="name" required class="w-full bg-zinc-900 border border-zinc-700 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -50,8 +54,7 @@
         <label for="reference" class="block text-sm font-medium mb-1">Reference Image (optional)</label>
         <input type="file" name="reference" id="reference" accept="image/*" class="w-full text-white">
       </div>
-        <input type="hidden" name="_redirect" value="https://ben-draws.pages.dev/thankyou.html">
-    </div>
+
       <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded transition">Submit Request</button>
     </form>
   </section>
