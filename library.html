@@ -13,95 +13,97 @@
   </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
-
+  <!-- Header -->
   <header class="flex items-center justify-between p-6 md:px-12">
-    <div class="text-2xl font-bold tracking-wide">Ben Draws</div>
+    <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+      <a href="library.html" class="hover:text-blue-400 transition font-semibold underline">Wallpaper Library</a>
       <a href="commissions.html" class="hover:text-blue-400 transition">Commissions</a>
     </nav>
   </header>
 
-  <main class="flex-grow max-w-5xl mx-auto p-6 md:px-12">
-    <h1 class="text-4xl font-bold mb-6 text-center">Wallpaper Library</h1>
+  <!-- Page Title -->
+  <section class="text-center px-6 py-10">
+    <h1 class="text-4xl font-bold mb-4">Wallpaper Library</h1>
+    <p class="text-zinc-400 max-w-xl mx-auto">
+      Browse the collection of unique wallpapers grouped by theme. Click any wallpaper to see details and purchase.
+    </p>
+  </section>
 
-    <div class="mb-6 text-center">
-      <label for="category-select" class="mr-4 text-lg font-semibold">Select Theme:</label>
-      <select id="category-select" class="bg-zinc-800 text-white p-2 rounded">
-        <option>Loading...</option>
-      </select>
-    </div>
+  <!-- Wallpapers Grid Container -->
+  <main id="wallpaperContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6 md:px-12 mb-20"></main>
 
-    <div id="wallpapers-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
-  </main>
-
+  <!-- Footer -->
   <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
-    © 2025 Ben Draws. Wallpapers
+    © 2025 Ben Draws. Commissions | Wallpapers
   </footer>
 
+  <!-- Wallpapers Data and Render Script -->
   <script>
-    async function loadWallpapers() {
-      try {
-        const res = await fetch('wallpapers.json');
-        const data = await res.json();
-
-        const categorySelect = document.getElementById('category-select');
-        const wallpapersGrid = document.getElementById('wallpapers-grid');
-
-        // Clear existing options
-        categorySelect.innerHTML = '';
-
-        // Populate categories in dropdown
-        data.categories.forEach((cat, index) => {
-          const option = document.createElement('option');
-          option.value = index;
-          option.textContent = cat.name;
-          categorySelect.appendChild(option);
-        });
-
-        // Function to show wallpapers of selected category
-        function showWallpapers(categoryIndex) {
-          wallpapersGrid.innerHTML = '';
-
-          const wallpapers = data.categories[categoryIndex].wallpapers;
-
-          if (!wallpapers.length) {
-            wallpapersGrid.innerHTML = '<p class="text-zinc-400 col-span-full text-center">No wallpapers in this category yet.</p>';
-            return;
-          }
-
-          wallpapers.forEach(wp => {
-            const card = document.createElement('div');
-            card.className = 'bg-zinc-800 rounded-lg overflow-hidden shadow-lg flex flex-col';
-
-            card.innerHTML = `
-              <img src="${wp.image}" alt="${wp.title}" class="w-full h-48 object-cover" />
-              <div class="p-4 flex flex-col flex-grow">
-                <h3 class="text-lg font-semibold mb-2">${wp.title}</h3>
-                <p class="mt-auto font-bold">${wp.price}</p>
-              </div>
-            `;
-
-            wallpapersGrid.appendChild(card);
-          });
+    const wallpapersData = {
+      categories: [
+        {
+          name: "Frogpunk",
+          wallpapers: [
+            {
+              id: "frogpunk-cityscape",
+              title: "Frogpunk Cityscape",
+              image: "wallpapers/frogpunk-cityscape.jpg",
+              price: "£1.99",
+              description: "A neon-lit frogpunk city skyline with rain and futuristic vibes."
+            },
+            {
+              id: "frogpunk-pond",
+              title: "Frogpunk Pond",
+              image: "wallpapers/frogpunk-pond.jpg",
+              price: "£1.99",
+              description: "A peaceful frogpunk pond with glowing lily pads and mist."
+            }
+          ]
+        },
+        {
+          name: "Giraffurai",
+          wallpapers: [
+            {
+              id: "giraffurai-warrior",
+              title: "Giraffurai Warrior",
+              image: "wallpapers/giraffurai-warrior.jpg",
+              price: "£1.99",
+              description: "A powerful giraffurai samurai ready for battle under the cherry blossoms."
+            }
+          ]
         }
+      ]
+    };
 
-        // Show first category wallpapers on load
-        showWallpapers(0);
+    const container = document.getElementById('wallpaperContainer');
 
-        // Change wallpapers when category changes
-        categorySelect.addEventListener('change', (e) => {
-          showWallpapers(e.target.value);
-        });
-      } catch (error) {
-        console.error('Error loading wallpapers:', error);
-        document.getElementById('category-select').innerHTML = '<option>Error loading categories</option>';
-        document.getElementById('wallpapers-grid').innerHTML = '<p class="text-red-500 text-center">Failed to load wallpapers data.</p>';
-      }
-    }
+    wallpapersData.categories.forEach(category => {
+      // Add category title spanning full width
+      const catTitle = document.createElement('h2');
+      catTitle.textContent = category.name;
+      catTitle.className = "text-2xl font-bold text-white col-span-full mb-4";
+      container.appendChild(catTitle);
 
-    loadWallpapers();
+      // Add wallpapers for this category
+      category.wallpapers.forEach(wp => {
+        const card = document.createElement('div');
+        card.className = "bg-zinc-800 rounded-lg shadow overflow-hidden cursor-pointer hover:brightness-90 transition";
+
+        card.innerHTML = `
+          <a href="wallpaper.html?id=${encodeURIComponent(wp.id)}" class="block">
+            <img src="${wp.image}" alt="${wp.title}" class="w-full h-48 object-cover" />
+            <div class="p-4">
+              <h3 class="text-lg font-semibold mb-1">${wp.title}</h3>
+              <p class="font-bold">${wp.price}</p>
+            </div>
+          </a>
+        `;
+
+        container.appendChild(card);
+      });
+    });
   </script>
-
 </body>
 </html>
