@@ -116,9 +116,9 @@
         </ul>
       </details>
 
-      <!-- Deluxe Edition -->
+      <!-- Elite Edition -->
       <details class="tier elite rounded-xl p-5 cursor-pointer">
-        <summary class="text-xl font-semibold select-none">Deluxe Edition – £11.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
+        <summary class="text-xl font-semibold select-none">Elite Edition – £12.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>Everything in Pro Edition</li>
           <li>Extra color variant (e.g. day/night mode)</li>
@@ -132,7 +132,7 @@
 
   <!-- Form Section -->
   <section class="px-6 md:px-12 pb-20 max-w-2xl mx-auto">
-    <form id="commission-form" action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6">
+    <form action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6">
       <!-- Redirect to thank-you -->
       <input type="hidden" name="_next" value="https://ben-draws.pages.dev/thank-you.html" />
 
@@ -169,10 +169,9 @@
 
       <button
         type="submit"
-        id="submit-btn"
         class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold w-full"
       >
-        Proceed to Payment
+        Submit Commission
       </button>
     </form>
   </section>
@@ -203,48 +202,30 @@
       });
     }
 
+    // Initialize - Pro Edition selected by default
+    const defaultSelected = Array.from(tiers).find(tier => tier.hasAttribute('open'));
+    if (!defaultSelected) {
+      selectTier(tiers[1]);
+    } else {
+      selectTier(defaultSelected);
+    }
+
     tiers.forEach(tier => {
-      tier.addEventListener('click', () => selectTier(tier));
-    });
+      const summary = tier.querySelector('summary');
+      summary.addEventListener('click', (e) => {
+        e.preventDefault();  // Prevent native toggle
 
-    // Initialize with Pro selected by default
-    selectTier(document.querySelector('.pro'));
+        // If this tier is already open, do nothing (or close it if you want)
+        if (tier.hasAttribute('open')) {
+          // Uncomment below to allow toggling closed on second click
+          // tier.removeAttribute('open');
+          // tier.classList.remove(tier.classList.contains('standard') ? 'standard-selected' : tier.classList.contains('pro') ? 'pro-selected' : 'elite-selected');
+          // return;
+          return;
+        }
 
-    // Payment links updated as per your message
-    const payLinks = {
-      standard: "https://buy.stripe.com/7sYbITarudTEgzqfRg1VK05",
-      pro: "https://buy.stripe.com/8x2fZ9aru7vg82U9sS1VK04",
-      deluxe: "https://buy.stripe.com/00wbITczC3f0eri34u1VK03"
-    };
-
-    const form = document.getElementById('commission-form');
-    const submitBtn = document.getElementById('submit-btn');
-
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      // Determine which tier is selected
-      let selectedTier = null;
-      if (document.querySelector('.standard-selected')) {
-        selectedTier = 'standard';
-      } else if (document.querySelector('.pro-selected')) {
-        selectedTier = 'pro';
-      } else if (document.querySelector('.elite-selected')) {
-        selectedTier = 'deluxe';
-      }
-
-      // Validate basic form fields before redirect
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
-
-      // Redirect to Stripe payment link for selected tier
-      if (selectedTier && payLinks[selectedTier]) {
-        window.location.href = payLinks[selectedTier];
-      } else {
-        alert('Please select a commission tier.');
-      }
+        selectTier(tier); // Open this one and close others
+      });
     });
   </script>
 </body>
