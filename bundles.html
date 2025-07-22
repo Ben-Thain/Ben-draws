@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallpaper Bundles | Ben Draws</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="flex items-center justify-between p-6 md:px-12">
+    <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
+    <nav class="space-x-6 text-sm">
+      <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+      <a href="commissions.html" class="hover:text-blue-400 transition">Commissions</a>
+      <a href="library.html" class="hover:text-blue-400 transition">Library</a>
+    </nav>
+  </header>
+
+  <!-- Page Title -->
+  <section class="text-center px-4 py-10">
+    <h1 class="text-4xl font-bold mb-4">Wallpaper Bundles</h1>
+    <p class="text-zinc-400 text-lg">Exclusive sets of themed wallpapers — perfect for matching vibes or gifts.</p>
+  </section>
+
+  <!-- Bundles Grid -->
+  <section class="px-6 md:px-12 pb-20">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <!-- Example Bundle Card -->
+      <div class="bg-zinc-800 rounded-xl overflow-hidden shadow hover:scale-105 transition transform">
+        <img src="bundle1.jpg" alt="Bundle 1" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="text-lg font-semibold">Frogpunk Set</h2>
+          <p class="text-zinc-400 text-sm mb-2">Includes 3 wallpapers. £4.99</p>
+          <a href="https://gumroad.com/l/frogpunk" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition">Buy Now</a>
+        </div>
+      </div>
+      <!-- Add more bundle blocks as needed -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
+    © 2025 Ben Draws. Library wallpapers: £1.99 each. Commissions: £7.99.
+  </footer>
+</body>
+</html>
