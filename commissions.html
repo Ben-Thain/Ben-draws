@@ -202,30 +202,23 @@
       });
     }
 
-    // Initialize - Pro Edition selected by default
-    const defaultSelected = Array.from(tiers).find(tier => tier.hasAttribute('open'));
-    if (!defaultSelected) {
-      selectTier(tiers[1]);
-    } else {
-      selectTier(defaultSelected);
-    }
-
     tiers.forEach(tier => {
+      // Add click listener on summary and details itself for bigger clickable area
       const summary = tier.querySelector('summary');
-      summary.addEventListener('click', (e) => {
-        e.preventDefault();  // Prevent native toggle
+      function toggleSelect(event) {
+        event.preventDefault(); // Prevent default summary toggle
 
-        // If this tier is already open, do nothing (or close it if you want)
         if (tier.hasAttribute('open')) {
-          // Uncomment below to allow toggling closed on second click
-          // tier.removeAttribute('open');
-          // tier.classList.remove(tier.classList.contains('standard') ? 'standard-selected' : tier.classList.contains('pro') ? 'pro-selected' : 'elite-selected');
-          // return;
-          return;
+          // Close it
+          tier.removeAttribute('open');
+          tier.classList.remove('standard-selected', 'pro-selected', 'elite-selected');
+        } else {
+          // Open and select it
+          selectTier(tier);
         }
-
-        selectTier(tier); // Open this one and close others
-      });
+      }
+      summary.addEventListener('click', toggleSelect);
+      tier.addEventListener('click', toggleSelect);
     });
   </script>
 </body>
