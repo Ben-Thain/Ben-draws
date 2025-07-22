@@ -1,0 +1,39 @@
+{
+  "categories": [
+    {
+      "name": "Frogpunk",
+      "wallpapers": [
+        {
+          "title": "Frogpunk Cityscape",
+          "image": "wallpapers/frogpunk-cityscape.jpg",
+          "price": "£1.99"
+        },
+        {
+          "title": "Frogpunk Neon Rain",
+          "image": "wallpapers/frogpunk-neon-rain.jpg",
+          "price": "£1.99"
+        }
+      ]
+    },
+    {
+      "name": "Giraffurai",
+      "wallpapers": [
+        {
+          "title": "Giraffurai Sunset",
+          "image": "wallpapers/giraffurai-sunset.jpg",
+          "price": "£1.99"
+        }
+      ]
+    },
+    {
+      "name": "Serpentech",
+      "wallpapers": [
+        {
+          "title": "Serpentech Circuit",
+          "image": "wallpapers/serpentech-circuit.jpg",
+          "price": "£1.99"
+        }
+      ]
+    }
+  ]
+}
