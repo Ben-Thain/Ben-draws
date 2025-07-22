@@ -1,18 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Commissions | Ben Draws</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Lexend', sans-serif;
     }
+    /* Custom dropdown arrow rotation */
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    details[open] summary::after {
+      transform: rotate(90deg);
+    }
+    summary::after {
+      content: '▶';
+      float: right;
+      transition: transform 0.3s ease;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
+
   <!-- Header -->
   <header class="flex items-center justify-between p-6 md:px-12">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
@@ -23,16 +37,64 @@
   </header>
 
   <!-- Page Title -->
-  <section class="text-center px-4 py-10">
+  <section class="text-center px-4 py-10 max-w-3xl mx-auto">
     <h1 class="text-4xl font-bold mb-4">Commission a Wallpaper</h1>
-    <p class="text-zinc-400 text-lg">Want something custom? Submit your idea and get a wallpaper made just for you. <strong>£7.99</strong> per commission.</p>
+    <p class="text-zinc-400 text-lg">
+      Want something custom? Submit your idea and get a wallpaper made just for you.
+    </p>
+  </section>
+
+  <!-- Commission Tiers Section -->
+  <section class="max-w-3xl mx-auto px-6 md:px-12 mb-12">
+    <h2 class="text-3xl font-semibold mb-6 text-center">Choose Your Commission Tier</h2>
+
+    <div class="space-y-4">
+      <!-- Standard -->
+      <details class="bg-zinc-800 rounded-xl p-5 cursor-pointer hover:bg-zinc-700 transition">
+        <summary class="text-xl font-semibold select-none">Standard – £5.99 <span class="text-zinc-400 text-sm ml-2">(Affordable and personal)</span></summary>
+        <ul class="mt-3 list-disc list-inside text-zinc-300">
+          <li>1 custom phone wallpaper</li>
+          <li>Standard resolution (for your device)</li>
+          <li>1 revision</li>
+          <li><strong>Delivery in 1 month</strong></li>
+        </ul>
+      </details>
+
+      <!-- Pro Edition (Most Popular) -->
+      <details open class="bg-blue-800 rounded-xl p-5 cursor-pointer hover:bg-blue-700 transition border-2 border-blue-600 shadow-lg">
+        <summary class="text-xl font-semibold select-none flex items-center justify-between">
+          Pro Edition – £7.99
+          <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full ml-4 select-none">Most Popular</span>
+        </summary>
+        <ul class="mt-3 list-disc list-inside text-blue-100">
+          <li>1 custom phone wallpaper</li>
+          <li>High resolution (lock &amp; home screen formatting)</li>
+          <li>3 revisions</li>
+          <li>Choose between 2 visual styles (e.g. warm/cool, gritty/clean)</li>
+          <li>Optional subtle signature or initials embedded</li>
+          <li><strong>Delivery in 1 week</strong></li>
+        </ul>
+      </details>
+
+      <!-- Elite Edition -->
+      <details class="bg-zinc-800 rounded-xl p-5 cursor-pointer hover:bg-zinc-700 transition">
+        <summary class="text-xl font-semibold select-none">Elite Edition – £12.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
+        <ul class="mt-3 list-disc list-inside text-zinc-300">
+          <li>Everything in Pro Edition</li>
+          <li>Extra color variant (e.g. day/night mode)</li>
+          <li>Multiple aspect ratios (iPhone/Android/tablet-ready)</li>
+          <li>Bonus thank-you sketch or signed note</li>
+          <li><strong>Priority delivery in 5 days</strong></li>
+        </ul>
+      </details>
+    </div>
   </section>
 
   <!-- Form Section -->
-  <section class="px-6 md:px-12 pb-20">
-    <form action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6 max-w-2xl mx-auto">
+  <section class="px-6 md:px-12 pb-20 max-w-2xl mx-auto">
+    <form action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6">
       <!-- Redirect to thank-you -->
-      <input type="hidden" name="_next" value="https://ben-draws.pages.dev/thank-you.html">
+      <input type="hidden" name="_next" value="https://ben-draws.pages.dev/thank-you.html" />
 
       <label class="block">
         <span class="text-sm text-zinc-400">Your Name</span>
@@ -46,15 +108,29 @@
 
       <label class="block">
         <span class="text-sm text-zinc-400">Wallpaper Idea</span>
-        <textarea name="message" rows="5" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" placeholder="Describe your concept..."></textarea>
+        <textarea
+          name="message"
+          rows="5"
+          required
+          class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white"
+          placeholder="Describe your concept..."
+        ></textarea>
       </label>
 
       <label class="block">
         <span class="text-sm text-zinc-400">Reference Image (optional)</span>
-        <input type="file" name="attachment" accept="image/*" class="mt-1 block w-full text-white file:bg-blue-600 file:hover:bg-blue-700 file:transition file:rounded file:px-4 file:py-2 bg-zinc-900 border border-zinc-700 rounded-md" />
+        <input
+          type="file"
+          name="attachment"
+          accept="image/*"
+          class="mt-1 block w-full text-white file:bg-blue-600 file:hover:bg-blue-700 file:transition file:rounded file:px-4 file:py-2 bg-zinc-900 border border-zinc-700 rounded-md"
+        />
       </label>
 
-      <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold">
+      <button
+        type="submit"
+        class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold w-full"
+      >
         Submit Commission
       </button>
     </form>
@@ -62,7 +138,7 @@
 
   <!-- Footer -->
   <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
-    © 2025 Ben Draws. Commissions: £7.99 | Wallpapers: £1.99
+    © 2025 Ben Draws. Commissions | Wallpapers
   </footer>
 </body>
 </html>
