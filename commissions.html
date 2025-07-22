@@ -35,6 +35,31 @@
     details[open] > summary::after {
       content: '▼';
     }
+    /* Default colors */
+    details.tier {
+      background-color: #27272a; /* bg-zinc-800 */
+      border: none;
+      box-shadow: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    /* Standard selected (green) */
+    details.standard-selected {
+      background-color: #166534; /* green-800 */
+      border: 2px solid #4ade80; /* green-400 */
+      box-shadow: 0 0 8px #4ade80;
+    }
+    /* Pro selected (blue) */
+    details.pro-selected {
+      background-color: #1e40af; /* blue-800 */
+      border: 2px solid #2563eb; /* blue-600 */
+      box-shadow: 0 0 12px #2563eb;
+    }
+    /* Elite selected (purple) */
+    details.elite-selected {
+      background-color: #5b21b6; /* purple-800 */
+      border: 2px solid #a78bfa; /* purple-400 */
+      box-shadow: 0 0 12px #a78bfa;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
@@ -62,7 +87,7 @@
 
     <div id="tiers" class="space-y-4">
       <!-- Standard -->
-      <details class="tier bg-zinc-800 rounded-xl p-5 cursor-pointer">
+      <details class="tier standard rounded-xl p-5 cursor-pointer">
         <summary class="text-xl font-semibold select-none">Standard – £5.99 <span class="text-zinc-400 text-sm ml-2">(Affordable and personal)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>1 custom phone wallpaper</li>
@@ -73,7 +98,7 @@
       </details>
 
       <!-- Pro Edition (Most Popular) -->
-      <details open class="tier bg-blue-800 rounded-xl p-5 border-2 border-blue-600 shadow-lg cursor-pointer">
+      <details class="tier pro rounded-xl p-5 cursor-pointer" open>
         <summary class="text-xl font-semibold select-none flex items-center justify-between">
           Pro Edition – £7.99
           <span class="flex items-center space-x-2">
@@ -92,7 +117,7 @@
       </details>
 
       <!-- Elite Edition -->
-      <details class="tier bg-zinc-800 rounded-xl p-5 cursor-pointer">
+      <details class="tier elite rounded-xl p-5 cursor-pointer">
         <summary class="text-xl font-semibold select-none">Elite Edition – £12.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>Everything in Pro Edition</li>
@@ -161,14 +186,18 @@
 
     function selectTier(selectedTier) {
       tiers.forEach(tier => {
+        tier.classList.remove('standard-selected', 'pro-selected', 'elite-selected');
         if (tier === selectedTier) {
           tier.setAttribute('open', '');
-          tier.classList.add('bg-blue-800', 'border-2', 'border-blue-600', 'shadow-lg');
-          tier.classList.remove('bg-zinc-800');
+          if (tier.classList.contains('standard')) {
+            tier.classList.add('standard-selected');
+          } else if (tier.classList.contains('pro')) {
+            tier.classList.add('pro-selected');
+          } else if (tier.classList.contains('elite')) {
+            tier.classList.add('elite-selected');
+          }
         } else {
           tier.removeAttribute('open');
-          tier.classList.remove('bg-blue-800', 'border-2', 'border-blue-600', 'shadow-lg');
-          tier.classList.add('bg-zinc-800');
         }
       });
     }
@@ -176,7 +205,6 @@
     // Initialize - Pro Edition selected by default
     const defaultSelected = Array.from(tiers).find(tier => tier.hasAttribute('open'));
     if (!defaultSelected) {
-      // If none open by default, open the middle (Pro)
       selectTier(tiers[1]);
     } else {
       selectTier(defaultSelected);
