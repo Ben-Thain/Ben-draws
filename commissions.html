@@ -21,7 +21,6 @@
     summary::-webkit-details-marker {
       display: none;
     }
-    /* Arrow on right side */
     summary::after {
       content: '▶';
       position: absolute;
@@ -35,36 +34,34 @@
     details[open] > summary::after {
       content: '▼';
     }
-    /* Default colors */
     details.tier {
-      background-color: #27272a; /* bg-zinc-800 */
+      background-color: #27272a;
       border: none;
       box-shadow: none;
       transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      cursor: pointer;
     }
-    /* Standard selected (green) */
     details.standard-selected {
-      background-color: #166534; /* green-800 */
-      border: 2px solid #4ade80; /* green-400 */
+      background-color: #166534;
+      border: 2px solid #4ade80;
       box-shadow: 0 0 8px #4ade80;
     }
-    /* Pro selected (blue) */
     details.pro-selected {
-      background-color: #1e40af; /* blue-800 */
-      border: 2px solid #2563eb; /* blue-600 */
+      background-color: #1e40af;
+      border: 2px solid #2563eb;
       box-shadow: 0 0 12px #2563eb;
     }
-    /* Elite selected (purple) */
     details.elite-selected {
-      background-color: #5b21b6; /* purple-800 */
-      border: 2px solid #a78bfa; /* purple-400 */
+      background-color: #5b21b6;
+      border: 2px solid #a78bfa;
       box-shadow: 0 0 12px #a78bfa;
     }
   </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
 
-  <!-- Header -->
   <header class="flex items-center justify-between p-6 md:px-12">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
@@ -73,21 +70,15 @@
     </nav>
   </header>
 
-  <!-- Page Title -->
   <section class="text-center px-4 py-10 max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-4">Commission a Wallpaper</h1>
-    <p class="text-zinc-400 text-lg">
-      Want something custom? Submit your idea and get a wallpaper made just for you.
-    </p>
+    <h1 class="text-4xl font-bold mb-4">Choose Your Commission Tier</h1>
+    <p class="text-zinc-400 text-lg mb-8">Select your preferred commission tier and pay to get started.</p>
   </section>
 
-  <!-- Commission Tiers Section -->
   <section class="max-w-3xl mx-auto px-6 md:px-12 mb-12">
-    <h2 class="text-3xl font-semibold mb-6 text-center">Choose Your Commission Tier</h2>
+    <div id="tiers" class="space-y-6">
 
-    <div id="tiers" class="space-y-4">
-      <!-- Standard -->
-      <details class="tier standard rounded-xl p-5 cursor-pointer">
+      <details class="tier standard rounded-xl cursor-pointer" id="standardTier">
         <summary class="text-xl font-semibold select-none">Standard – £5.99 <span class="text-zinc-400 text-sm ml-2">(Affordable and personal)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>1 custom phone wallpaper</li>
@@ -95,10 +86,10 @@
           <li>1 revision</li>
           <li><strong>Delivery in 1 month</strong></li>
         </ul>
+        <a href="https://buy.stripe.com/7sYbITarudTEgzqfRg1VK05" target="_blank" class="mt-4 inline-block bg-green-600 hover:bg-green-700 transition px-6 py-3 rounded text-white font-semibold">Pay £5.99</a>
       </details>
 
-      <!-- Pro Edition (Most Popular) -->
-      <details class="tier pro rounded-xl p-5 cursor-pointer" open>
+      <details class="tier pro rounded-xl cursor-pointer" id="proTier" open>
         <summary class="text-xl font-semibold select-none flex items-center justify-between">
           Pro Edition – £7.99
           <span class="flex items-center space-x-2">
@@ -114,11 +105,11 @@
           <li>Optional subtle signature or initials embedded</li>
           <li><strong>Delivery in 1 week</strong></li>
         </ul>
+        <a href="https://buy.stripe.com/8x2fZ9aru7vg82U9sS1VK04" target="_blank" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold">Pay £7.99</a>
       </details>
 
-      <!-- Elite Edition -->
-      <details class="tier elite rounded-xl p-5 cursor-pointer">
-        <summary class="text-xl font-semibold select-none">Elite Edition – £12.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
+      <details class="tier elite rounded-xl cursor-pointer" id="eliteTier">
+        <summary class="text-xl font-semibold select-none">Deluxe Edition – £11.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>Everything in Pro Edition</li>
           <li>Extra color variant (e.g. day/night mode)</li>
@@ -126,57 +117,16 @@
           <li>Bonus thank-you sketch or signed note</li>
           <li><strong>Priority delivery in 5 days</strong></li>
         </ul>
+        <a href="https://buy.stripe.com/00wbITczC3f0eri34u1VK03" target="_blank" class="mt-4 inline-block bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded text-white font-semibold">Pay £11.99</a>
       </details>
+
     </div>
+
+    <p class="mt-12 text-center text-zinc-400">
+      After completing your payment, please <a href="commission-form.html" class="text-blue-400 underline">fill out this form</a> to submit your commission details.
+    </p>
   </section>
 
-  <!-- Form Section -->
-  <section class="px-6 md:px-12 pb-20 max-w-2xl mx-auto">
-    <form action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6">
-      <!-- Redirect to thank-you -->
-      <input type="hidden" name="_next" value="https://ben-draws.pages.dev/thank-you.html" />
-
-      <label class="block">
-        <span class="text-sm text-zinc-400">Your Name</span>
-        <input type="text" name="name" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" />
-      </label>
-
-      <label class="block">
-        <span class="text-sm text-zinc-400">Your Email</span>
-        <input type="email" name="email" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" />
-      </label>
-
-      <label class="block">
-        <span class="text-sm text-zinc-400">Wallpaper Idea</span>
-        <textarea
-          name="message"
-          rows="5"
-          required
-          class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white"
-          placeholder="Describe your concept..."
-        ></textarea>
-      </label>
-
-      <label class="block">
-        <span class="text-sm text-zinc-400">Reference Image (optional)</span>
-        <input
-          type="file"
-          name="attachment"
-          accept="image/*"
-          class="mt-1 block w-full text-white file:bg-blue-600 file:hover:bg-blue-700 file:transition file:rounded file:px-4 file:py-2 bg-zinc-900 border border-zinc-700 rounded-md"
-        />
-      </label>
-
-      <button
-        type="submit"
-        class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold w-full"
-      >
-        Submit Commission
-      </button>
-    </form>
-  </section>
-
-  <!-- Footer -->
   <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
     © 2025 Ben Draws. Commissions | Wallpapers
   </footer>
@@ -202,23 +152,19 @@
       });
     }
 
-    tiers.forEach(tier => {
-      // Add click listener on summary and details itself for bigger clickable area
-      const summary = tier.querySelector('summary');
-      function toggleSelect(event) {
-        event.preventDefault(); // Prevent default summary toggle
+    // Initialize - Pro Edition selected by default
+    const defaultSelected = Array.from(tiers).find(tier => tier.hasAttribute('open'));
+    if (!defaultSelected) {
+      selectTier(tiers[1]);
+    } else {
+      selectTier(defaultSelected);
+    }
 
-        if (tier.hasAttribute('open')) {
-          // Close it
-          tier.removeAttribute('open');
-          tier.classList.remove('standard-selected', 'pro-selected', 'elite-selected');
-        } else {
-          // Open and select it
-          selectTier(tier);
-        }
-      }
-      summary.addEventListener('click', toggleSelect);
-      tier.addEventListener('click', toggleSelect);
+    tiers.forEach(tier => {
+      tier.querySelector('summary').addEventListener('click', (e) => {
+        e.preventDefault();
+        selectTier(tier);
+      });
     });
   </script>
 </body>
