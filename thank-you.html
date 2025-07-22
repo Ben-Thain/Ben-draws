@@ -1,20 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Thank You | Ben Draws</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Lexend', sans-serif;
+      background: linear-gradient(to bottom right, #27272a, #000);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+    .loading {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #a1a1aa;
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col items-center justify-center text-center px-6">
-  <h1 class="text-4xl font-bold mb-4">Thank you!</h1>
-  <p class="text-zinc-400 text-lg mb-8">Your commission request has been submitted. I’ll be in touch soon!</p>
-  <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded transition font-semibold">Back to Home</a>
+<body>
+  <h1 class="text-4xl font-bold mb-6">Thank You for Your Payment!</h1>
+  <p class="text-lg max-w-xl mx-auto">
+    We are processing your commission request and will get back to you soon.
+  </p>
+  <p class="loading" id="loading">Submitting your details...</p>
+
+  <script>
+    // Change this to your email for formsubmit
+    const myEmail = "your-email@example.com"; // <== PUT YOUR EMAIL HERE
+
+    async function sendForm(data) {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("message", `Tier: ${data.tier}\n\nIdea:\n${data.message}`);
+
+      try {
+        const response = await fetch("https://formsubmit.co/ajax/" + myEmail, {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+          },
+          body: formData,
+        });
+        const result = await response.json();
+        if (result.success) {
+          document.getElementById("loading").textContent = "Your commission request was submitted successfully!";
+          // Clear localStorage so no resubmission happens if user reloads page
+          localStorage.removeItem("commissionFormData");
+        } else {
+          document.getElementById("loading").textContent = "Submission failed. Please contact me directly.";
+        }
+      } catch (error) {
+        document.getElementById("loading").textContent = "An error occurred. Please contact me directly.";
+      }
+    }
+
+    window.onload = () => {
+      const savedData = localStorage.getItem("commissionFormData");
+      if (!savedData) {
+        document.getElementById("loading").textContent = "No form data found. Please submit your commission form first.";
+        return;
+      }
+      const data = JSON.parse(savedData);
+      sendForm(data);
+    };
+  </script>
 </body>
 </html>
