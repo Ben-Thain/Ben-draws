@@ -13,9 +13,9 @@
   </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
-
+  <!-- Header -->
   <header class="flex items-center justify-between p-6 md:px-12">
-    <div class="text-2xl font-bold tracking-wide">Ben Draws</div>
+    <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
       <a href="library.html" class="hover:text-blue-400 transition">Wallpaper Library</a>
@@ -23,72 +23,65 @@
     </nav>
   </header>
 
-  <main class="flex-grow max-w-4xl mx-auto p-6 md:px-12">
-    <div id="wallpaper-detail" class="text-center">
-      <p class="text-zinc-400">Loading wallpaper details...</p>
-    </div>
+  <!-- Content -->
+  <main class="flex-1 px-6 md:px-12 py-10 max-w-4xl mx-auto text-center">
+    <div id="wallpaperContent" class="space-y-8"></div>
   </main>
 
-  <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
-    © 2025 Ben Draws. Wallpapers
+  <!-- Footer -->
+  <footer class="text-center text-zinc-500 text-sm py-6">
+    © 2025 Ben Draws. Commissions | Wallpapers
   </footer>
 
+  <!-- Wallpaper Data & Logic -->
   <script>
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
-
-    async function loadWallpaperDetail() {
-      const wallpaperId = getQueryParam('id');
-      const detailDiv = document.getElementById('wallpaper-detail');
-
-      if (!wallpaperId) {
-        detailDiv.innerHTML = '<p class="text-red-500">No wallpaper selected.</p>';
-        return;
+    const wallpapers = [
+      {
+        id: "frogpunk-cityscape",
+        title: "Frogpunk Cityscape",
+        image: "wallpapers/frogpunk-cityscape.jpg",
+        price: "£1.99",
+        description: "A neon-lit frogpunk city skyline with rain and futuristic vibes."
+      },
+      {
+        id: "frogpunk-pond",
+        title: "Frogpunk Pond",
+        image: "wallpapers/frogpunk-pond.jpg",
+        price: "£1.99",
+        description: "A peaceful frogpunk pond with glowing lily pads and mist."
+      },
+      {
+        id: "giraffurai-warrior",
+        title: "Giraffurai Warrior",
+        image: "wallpapers/giraffurai-warrior.jpg",
+        price: "£1.99",
+        description: "A powerful giraffurai samurai ready for battle under the cherry blossoms."
       }
+    ];
 
-      try {
-        const res = await fetch('wallpapers.json');
-        const data = await res.json();
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const selected = wallpapers.find(w => w.id === id);
 
-        let wallpaper = null;
+    const container = document.getElementById("wallpaperContent");
 
-        // Find wallpaper by id
-        for (const category of data.categories) {
-          wallpaper = category.wallpapers.find(wp => wp.id === wallpaperId);
-          if (wallpaper) break;
-        }
-
-        if (!wallpaper) {
-          detailDiv.innerHTML = '<p class="text-red-500">Wallpaper not found.</p>';
-          return;
-        }
-
-        // Render detail view
-        detailDiv.innerHTML = `
-          <h1 class="text-4xl font-bold mb-4">${wallpaper.title}</h1>
-          <img src="${wallpaper.image}" alt="${wallpaper.title}" class="mx-auto rounded-lg shadow-lg mb-6 max-h-[500px] object-contain" />
-          <p class="mb-6 text-lg">${wallpaper.description || 'No description provided.'}</p>
-          <p class="text-2xl font-bold mb-6">${wallpaper.price}</p>
-
-          <form action="https://your-payment-link.example" method="POST" target="_blank">
-            <input type="hidden" name="item" value="${wallpaper.title}" />
-            <input type="hidden" name="price" value="${wallpaper.price}" />
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition px-8 py-3 rounded text-white font-semibold">
-              Buy Now
-            </button>
-          </form>
-        `;
-
-      } catch (error) {
-        detailDiv.innerHTML = '<p class="text-red-500">Error loading wallpaper data.</p>';
-        console.error(error);
-      }
+    if (selected) {
+      container.innerHTML = `
+        <h1 class="text-3xl font-bold">${selected.title}</h1>
+        <img src="${selected.image}" alt="${selected.title}" class="w-full max-h-[500px] object-contain rounded shadow" />
+        <p class="text-zinc-400">${selected.description}</p>
+        <p class="text-xl font-semibold">${selected.price}</p>
+        <a href="https://buy.stripe.com/test_examplelink" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold">
+          Buy for ${selected.price}
+        </a>
+      `;
+    } else {
+      container.innerHTML = `
+        <h1 class="text-2xl font-bold">Wallpaper Not Found</h1>
+        <p class="text-zinc-400">Please go back and select a valid wallpaper.</p>
+        <a href="library.html" class="mt-4 inline-block underline text-blue-400">Return to Library</a>
+      `;
     }
-
-    loadWallpaperDetail();
   </script>
 </body>
 </html>
-
