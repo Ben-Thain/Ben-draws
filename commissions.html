@@ -10,18 +10,34 @@
     body {
       font-family: 'Lexend', sans-serif;
     }
-    /* Custom dropdown arrow rotation */
-    details summary::-webkit-details-marker {
+    summary {
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      padding-right: 2rem;
+      outline: none;
+    }
+    summary::-webkit-details-marker {
       display: none;
     }
-    details[open] summary::after {
-      transform: rotate(90deg);
-    }
+    /* Arrow on right side */
     summary::after {
       content: '▶';
-      float: right;
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%) rotate(0deg);
       transition: transform 0.3s ease;
       font-weight: 700;
+      color: inherit;
+    }
+    details[open] > summary::after {
+      transform: translateY(-50%) rotate(90deg);
+    }
+    /* Prevent text selection on arrow */
+    summary::after {
+      pointer-events: none;
     }
   </style>
 </head>
@@ -48,9 +64,9 @@
   <section class="max-w-3xl mx-auto px-6 md:px-12 mb-12">
     <h2 class="text-3xl font-semibold mb-6 text-center">Choose Your Commission Tier</h2>
 
-    <div class="space-y-4">
+    <div id="tiers" class="space-y-4">
       <!-- Standard -->
-      <details class="bg-zinc-800 rounded-xl p-5 cursor-pointer hover:bg-zinc-700 transition">
+      <details class="tier bg-zinc-800 rounded-xl p-5 hover:bg-zinc-700 transition cursor-pointer">
         <summary class="text-xl font-semibold select-none">Standard – £5.99 <span class="text-zinc-400 text-sm ml-2">(Affordable and personal)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>1 custom phone wallpaper</li>
@@ -61,7 +77,7 @@
       </details>
 
       <!-- Pro Edition (Most Popular) -->
-      <details open class="bg-blue-800 rounded-xl p-5 cursor-pointer hover:bg-blue-700 transition border-2 border-blue-600 shadow-lg">
+      <details open class="tier bg-blue-800 rounded-xl p-5 border-2 border-blue-600 shadow-lg cursor-pointer">
         <summary class="text-xl font-semibold select-none flex items-center justify-between">
           Pro Edition – £7.99
           <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full ml-4 select-none">Most Popular</span>
@@ -77,7 +93,7 @@
       </details>
 
       <!-- Elite Edition -->
-      <details class="bg-zinc-800 rounded-xl p-5 cursor-pointer hover:bg-zinc-700 transition">
+      <details class="tier bg-zinc-800 rounded-xl p-5 hover:bg-zinc-700 transition cursor-pointer">
         <summary class="text-xl font-semibold select-none">Elite Edition – £12.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
         <ul class="mt-3 list-disc list-inside text-zinc-300">
           <li>Everything in Pro Edition</li>
@@ -140,5 +156,35 @@
   <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
     © 2025 Ben Draws. Commissions | Wallpapers
   </footer>
+
+  <script>
+    // Select all details with class 'tier'
+    const tiers = document.querySelectorAll('.tier');
+
+    tiers.forEach((tier) => {
+      tier.addEventListener('click', (e) => {
+        // Ignore clicks on links or buttons inside details
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+
+        // If clicked tier is already open, don't close it (to enforce one open only)
+        if (tier.hasAttribute('open')) {
+          e.preventDefault();
+          return;
+        }
+
+        // Close all tiers
+        tiers.forEach(t => {
+          t.removeAttribute('open');
+          t.classList.remove('bg-blue-800', 'border-2', 'border-blue-600', 'shadow-lg');
+          t.classList.add('bg-zinc-800');
+        });
+
+        // Open clicked tier and add highlight classes
+        tier.setAttribute('open', '');
+        tier.classList.add('bg-blue-800', 'border-2', 'border-blue-600', 'shadow-lg');
+        tier.classList.remove('bg-zinc-800');
+      });
+    });
+  </script>
 </body>
 </html>
