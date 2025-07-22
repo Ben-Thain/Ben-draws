@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Commissions | Ben Draws</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
@@ -24,44 +24,45 @@
 
   <!-- Page Title -->
   <section class="text-center px-4 py-10">
-    <h1 class="text-4xl font-bold mb-4">Custom Commissions</h1>
-    <p class="text-zinc-400 text-lg">Request your own custom wallpaper — just <strong>£7.99</strong>. Be as creative as you like!</p>
+    <h1 class="text-4xl font-bold mb-4">Commission a Wallpaper</h1>
+    <p class="text-zinc-400 text-lg">Want something custom? Submit your idea and get a wallpaper made just for you. <strong>£7.99</strong> per commission.</p>
   </section>
 
-  <!-- Commission Form -->
+  <!-- Form Section -->
   <section class="px-6 md:px-12 pb-20">
-    <form action="https://getform.io/f/bnlxdrxb" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6 max-w-2xl mx-auto">
-      
-      <!-- Redirect on Success -->
-      <input type="hidden" name="_redirect" value="https://ben-draws.pages.dev/thankyou.html">
+    <form action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6 max-w-2xl mx-auto">
+      <!-- Redirect to thank-you -->
+      <input type="hidden" name="_next" value="https://ben-draws.pages.dev/thank-you.html">
 
-      <div>
-        <label for="name" class="block text-sm font-medium mb-1">Your Name</label>
-        <input type="text" name="name" id="name" required class="w-full bg-zinc-900 border border-zinc-700 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
+      <label class="block">
+        <span class="text-sm text-zinc-400">Your Name</span>
+        <input type="text" name="name" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" />
+      </label>
 
-      <div>
-        <label for="email" class="block text-sm font-medium mb-1">Email Address</label>
-        <input type="email" name="email" id="email" required class="w-full bg-zinc-900 border border-zinc-700 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-      </div>
+      <label class="block">
+        <span class="text-sm text-zinc-400">Your Email</span>
+        <input type="email" name="email" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" />
+      </label>
 
-      <div>
-        <label for="description" class="block text-sm font-medium mb-1">What would you like drawn?</label>
-        <textarea name="description" id="description" rows="5" required class="w-full bg-zinc-900 border border-zinc-700 rounded px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-      </div>
+      <label class="block">
+        <span class="text-sm text-zinc-400">Wallpaper Idea</span>
+        <textarea name="message" rows="5" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" placeholder="Describe your concept..."></textarea>
+      </label>
 
-      <div>
-        <label for="reference" class="block text-sm font-medium mb-1">Reference Image (optional)</label>
-        <input type="file" name="reference" id="reference" accept="image/*" class="w-full text-white">
-      </div>
+      <label class="block">
+        <span class="text-sm text-zinc-400">Reference Image (optional)</span>
+        <input type="file" name="attachment" accept="image/*" class="mt-1 block w-full text-white file:bg-blue-600 file:hover:bg-blue-700 file:transition file:rounded file:px-4 file:py-2 bg-zinc-900 border border-zinc-700 rounded-md" />
+      </label>
 
-      <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded transition">Submit Request</button>
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold">
+        Submit Commission
+      </button>
     </form>
   </section>
 
   <!-- Footer -->
   <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
-    © 2025 Ben Draws. Custom commissions: £7.99.
+    © 2025 Ben Draws. Commissions: £7.99 | Wallpapers: £1.99
   </footer>
 </body>
 </html>
