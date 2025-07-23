@@ -13,6 +13,7 @@
       background: #121212;
       overflow-x: hidden;
       transition: background 0.7s ease;
+      color: white;
     }
 
     header, footer {
@@ -47,31 +48,33 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 5rem 2rem;
+      padding: 6rem 2rem;
       position: relative;
       z-index: 10;
     }
 
     h1 {
-      font-size: 4rem;
+      font-size: 6.5rem; /* bigger */
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin-bottom: 3rem; /* more space below */
       line-height: 1.1;
+      letter-spacing: 0.2em; /* spread out letters */
       user-select: none;
       color: white;
     }
 
     p {
-      font-size: 1.25rem;
-      margin-bottom: 3rem;
+      font-size: 1.5rem;
+      margin-bottom: 4rem; /* more vertical spacing */
       color: #aaa;
       max-width: 600px;
       user-select: none;
+      line-height: 1.5;
     }
 
     .buttons {
       display: flex;
-      gap: 2rem;
+      gap: 3rem;
       flex-wrap: wrap;
       justify-content: center;
       position: relative;
@@ -82,8 +85,8 @@
     a.btn {
       position: relative;
       display: inline-block;
-      padding: 1.25rem 3rem;
-      font-size: 1.125rem;
+      padding: 1.5rem 4rem;
+      font-size: 1.25rem;
       font-weight: 600;
       border-radius: 1rem;
       text-decoration: none;
@@ -91,7 +94,6 @@
       cursor: pointer;
       overflow: visible;
       user-select: none;
-      /* base shadows for some depth */
       box-shadow:
         0 2px 6px rgb(0 0 0 / 0.8),
         inset 0 0 4px rgb(255 255 255 / 0.05);
@@ -117,34 +119,43 @@
     .slash {
       position: absolute;
       top: 50%;
-      right: 100%;
-      width: 300vw; /* super wide to cover entire page horizontally */
-      height: 12px;
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.3) 40%,
-        rgba(255,255,255,0.8) 50%,
-        rgba(255,255,255,0.3) 60%,
-        rgba(255,255,255,0) 100%
-      );
+      right: -320vw; /* off screen far right */
+      width: 350vw; /* extra wide to cover screen + beyond */
+      height: 30px; /* thicker slash */
+      background: transparent; /* will be overridden */
       transform: translateY(-50%) rotate(-20deg);
       pointer-events: none;
-      transition: right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: right 0.9s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.9s ease;
       z-index: 5;
-      filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+      border-radius: 4px;
+      box-shadow: 0 0 12px rgba(255 255 255 / 0.6);
       opacity: 0;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
     }
 
-    /* SLASH VISIBLE WHEN HOVERED */
+    /* SLASH COLOR FOR BUTTON TYPES */
+    a.library .slash {
+      background: #2563eb;
+      box-shadow: 0 0 24px #2563eb;
+    }
+    a.commission .slash {
+      background: #3f3f46;
+      box-shadow: 0 0 24px #3f3f46;
+    }
+    a.bundle .slash {
+      background: #7c3aed;
+      box-shadow: 0 0 24px #7c3aed;
+    }
+
+    /* SLASH VISIBLE WHEN HOVERED - moving from right to left, tip piercing button */
     a.btn:hover .slash,
     a.btn:focus .slash {
-      right: -210vw; /* slide fully across the button and beyond */
+      right: -50vw; /* moves slash left so tip goes through button */
       opacity: 1;
       transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* Overlay background color changes */
+    /* Background color overlay transitions */
     body.bg-blue {
       background: linear-gradient(135deg, #0f172a, #1e3a8a);
       transition: background 0.7s ease;
@@ -211,4 +222,3 @@
   </script>
 </body>
 </html>
-
