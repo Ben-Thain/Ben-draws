@@ -1,406 +1,53 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ben Draws | Home</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset and base */
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      background: #0a0a0a;
-      font-family: 'Lexend', sans-serif;
-      overflow-x: hidden;
-      color: white;
-      transition: background 1.2s ease;
-      user-select: none;
-      position: relative;
-    }
+<style>
+  body {
+    background-color: #0a0a0a;
+    transition: background-color 1.2s ease;
+  }
 
-    a {
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    #app {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem 1rem 3rem 1rem;
-      position: relative;
-      z-index: 0;
-    }
-
-    header {
-      width: 100%;
-      max-width: 1280px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid #222;
-      z-index: 30;
-      position: relative;
-    }
-    header h1 {
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 0.1em;
-      user-select: text;
-    }
-    nav a {
-      color: white;
-      font-weight: 500;
-      margin-left: 2rem;
-      font-size: 1rem;
-      transition: color 0.3s ease;
-      position: relative;
-    }
-    nav a:hover {
-      color: #58a6ff;
-    }
-
-    main.hero {
-      flex-grow: 1;
-      width: 100%;
-      max-width: 1280px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 1rem 1rem 1rem;
-      position: relative;
-      overflow: visible;
-      user-select: text;
-    }
-
-    /* Huge title: max size controlled */
-    .hero-title {
-      font-weight: 900;
-      letter-spacing: 0.15em;
-      line-height: 1.1;
-      margin: 0 0 2.5rem 0;
-      position: relative;
-      z-index: 10;
-      user-select: text;
-      white-space: nowrap;
-
-      /* Limit font size */
-      font-size: clamp(4rem, 12vw, 8rem);
-      max-width: 100vw;
-      overflow-wrap: normal;
-    }
-
-    .hero-subtitle {
-      font-size: 1.7rem;
-      max-width: 700px;
-      margin-bottom: 5rem;
-      color: #bbb;
-      user-select: text;
-      letter-spacing: 0.04em;
-      text-align: center;
-      z-index: 10;
-      position: relative;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 3.5rem;
-      z-index: 10;
-      position: relative;
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 100%;
-      max-width: 900px;
-    }
-
-    .btn {
-      position: relative;
-      background-color: #2563eb;
-      color: white;
-      font-weight: 700;
-      font-size: 1.6rem;
-      padding: 1.3rem 3.5rem;
-      border-radius: 1.25rem;
-      box-shadow: 0 4px 10px rgb(0 0 0 / 0.5);
-      cursor: pointer;
-      user-select: none;
-      overflow: visible;
-      transition: background-color 0.4s ease;
-      display: inline-block;
-      white-space: nowrap;
-      z-index: 15;
-    }
-    .btn-gray {
-      background-color: #4b5563;
-      box-shadow: 0 4px 10px rgb(75 85 99 / 0.6);
-    }
-    .btn-purple {
-      background-color: #7c3aed;
-      box-shadow: 0 4px 10px rgb(124 58 237 / 0.6);
-    }
-    .btn:hover {
-      filter: brightness(1.15);
-    }
-
-    /* Spear slash fixed element */
-    .spear-slasher {
-      pointer-events: none;
-      position: fixed;
-      top: 50%; /* Vertically center */
-      left: 100vw; /* start off-screen right */
-      width: 0;
-      height: 160px; /* Much thicker */
-      background-color: transparent;
-      transform-origin: right center;
-      transform: rotate(-15deg);
-      z-index: 50;
-      transition: none;
-      border-radius: 20px;
-      clip-path: polygon(
-        0% 50%,
-        85% 0%,
-        100% 50%,
-        85% 100%,
-        0% 50%
-      );
-      box-shadow: none;
-      will-change: width, left, top;
-      /* Set initial translateY to center properly on buttons */
-      translate: 0 -50%;
-    }
-
-    /* Background gradients */
-    body.bg-blue-gradient {
-      background: linear-gradient(135deg, #0e164a, #1e3a8a);
-      transition: background 1.2s ease;
-    }
-    body.bg-gray-gradient {
-      background: linear-gradient(135deg, #1c1c1c, #3a3a45);
-      transition: background 1.2s ease;
-    }
-    body.bg-purple-gradient {
-      background: linear-gradient(135deg, #3c1b68, #6b32ca);
-      transition: background 1.2s ease;
-    }
-    body {
-      transition: background 1.2s ease;
-    }
-
-    footer {
-      width: 100%;
-      max-width: 1280px;
-      text-align: center;
-      color: #666;
-      font-size: 0.9rem;
-      border-top: 1px solid #222;
-      padding: 1rem 2rem;
-      user-select: none;
-      z-index: 30;
-      position: relative;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Ben Draws</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="commissions.html">Commissions</a>
-      <a href="library.html">Library</a>
-      <a href="bundles.html">Bundles</a>
-    </nav>
-  </header>
-
-  <div id="app">
-    <main class="hero" aria-label="Homepage introduction">
-      <h1 class="hero-title">Your Phone, Your Vibe</h1>
-      <p class="hero-subtitle">Original and custom phone wallpapers to make your home screen pop.</p>
-      <div class="btn-group" role="list">
-        <a role="listitem" href="library.html" class="btn btn-blue" data-color="blue" tabindex="0">Browse Library</a>
-        <a role="listitem" href="commissions.html" class="btn btn-gray" data-color="gray" tabindex="0">Request a Commission</a>
-        <a role="listitem" href="bundles.html" class="btn btn-purple" data-color="purple" tabindex="0">View Bundles</a>
-      </div>
-    </main>
-  </div>
-
-  <div class="spear-slasher" id="spearSlash"></div>
-
-  <footer>
-    © 2025 Ben Draws. All rights reserved.
-  </footer>
+  /* Background color changes on body with these classes */
+  body.bg-blue {
+    background-color: #1e3a8a;
+  }
+  body.bg-gray {
+    background-color: #3a3a45;
+  }
+  body.bg-purple {
+    background-color: #6b32ca;
+  }
+</style>
 
 <script>
   (() => {
-    const spear = document.getElementById('spearSlash');
     const body = document.body;
     const buttons = document.querySelectorAll('.btn-group .btn');
 
-    // Background classes and colors
     const bgClasses = {
-      blue: 'bg-blue-gradient',
-      gray: 'bg-gray-gradient',
-      purple: 'bg-purple-gradient',
+      blue: 'bg-blue',
+      gray: 'bg-gray',
+      purple: 'bg-purple',
     };
-
-    const spearColors = {
-      blue: '#2563eb',
-      gray: '#4b5563',
-      purple: '#7c3aed',
-    };
-
-    let animFrame = null;
-    let animation = null;
-
-    // Max spear width - needs to be enough to cross diagonal screen
-    // Since rotated -15deg, actual horizontal movement should also consider vertical movement
-    const diagLength = Math.sqrt(window.innerWidth**2 + window.innerHeight**2);
-    const maxSpearWidth = diagLength * 1.2;
-    const spearHeight = 160;
-
-    let progress = 0;
-    let direction = 0;
-    const animDuration = 700;
-
-    let currentColor = null;
-    let startTime = null;
-
-    // We will animate along the spear angle: -15deg
-    // We'll move the spear along a vector at -15deg from initial offscreen right-bottom,
-    // so the spear moves diagonally from right edge towards left-top, matching the angle.
-
-    const angleDeg = -15;
-    const angleRad = angleDeg * Math.PI / 180;
-
-    // We'll animate spear's left and top together so the spear tip stays fixed at
-    // the right edge, vertically aligned with the button row.
-
-    // We'll vertically center spear near button group center
-    const buttonGroup = document.querySelector('.btn-group');
-    function getSpearVerticalCenter() {
-      const rect = buttonGroup.getBoundingClientRect();
-      return rect.top + rect.height / 2;
-    }
-
-    function easeInOutQuad(t) {
-      return t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
-    }
-
-    function animateStep(timestamp) {
-      if (!startTime) startTime = timestamp;
-      let elapsed = timestamp - startTime;
-      let t = Math.min(elapsed / animDuration, 1);
-
-      if (direction === 1) {
-        progress = easeInOutQuad(t);
-      } else if (direction === -1) {
-        progress = easeInOutQuad(1 - t);
-      }
-
-      // Compute width and position along angle vector
-      const width = progress * maxSpearWidth;
-
-      // The spear tip stays fixed at right edge, vertically aligned with buttons
-      // So spear's left and top positions move backwards along the angle vector by width
-
-      // Calculate spear tip fixed position
-      const tipX = window.innerWidth;
-      const tipY = getSpearVerticalCenter();
-
-      // Calculate spear's left and top based on width and angle
-      const left = tipX - width * Math.cos(angleRad);
-      const top = tipY - width * Math.sin(angleRad);
-
-      spear.style.width = `${width}px`;
-      spear.style.left = `${left}px`;
-      spear.style.top = `${top}px`;
-      spear.style.height = `${spearHeight}px`;
-
-      if (elapsed < animDuration) {
-        animFrame = requestAnimationFrame(animateStep);
-      } else {
-        if (direction === -1) {
-          spear.style.width = '0';
-          // Move spear off screen right-bottom (slightly down) so not visible
-          spear.style.left = `${window.innerWidth}px`;
-          spear.style.top = `${window.innerHeight + 100}px`;
-          currentColor = null;
-        }
-        animFrame = null;
-        startTime = null;
-      }
-    }
-
-    function setBackground(color) {
-      Object.values(bgClasses).forEach(c => body.classList.remove(c));
-      if (color && bgClasses[color]) {
-        body.classList.add(bgClasses[color]);
-      }
-    }
 
     function onHover(e) {
       const btn = e.currentTarget;
       const color = btn.dataset.color;
       if (!color) return;
 
-      if (animFrame) cancelAnimationFrame(animFrame);
-      startTime = null;
-      direction = 1; // grow spear
-      currentColor = color;
-
-      spear.style.backgroundColor = spearColors[color];
-      spear.style.borderRadius = '20px';
-      spear.style.clipPath = 'polygon(0% 50%, 85% 0%, 100% 50%, 85% 100%, 0% 50%)';
-      spear.style.boxShadow = 'none';
-
-      // Reset spear position to start offscreen right-bottom aligned with buttons vertically
-      spear.style.left = `${window.innerWidth}px`;
-      spear.style.top = `${getSpearVerticalCenter()}px`;
-      spear.style.width = '0';
-      spear.style.height = `${spearHeight}px`;
-
-      animFrame = requestAnimationFrame(animateStep);
-
-      // Set background gradient smoothly
-      setBackground(color);
+      // Remove all bg classes
+      Object.values(bgClasses).forEach(c => body.classList.remove(c));
+      // Add new bg class
+      body.classList.add(bgClasses[color]);
     }
 
     function onLeave(e) {
-      if (!currentColor) return;
-      if (animFrame) cancelAnimationFrame(animFrame);
-      startTime = null;
-      direction = -1; // shrink spear
-      animFrame = requestAnimationFrame(animateStep);
-
-      // Fade background back to black smoothly
-      setBackground(null);
+      // Remove all bg classes to fade back to black
+      Object.values(bgClasses).forEach(c => body.classList.remove(c));
     }
 
     buttons.forEach(btn => {
       btn.addEventListener('mouseenter', onHover);
-      btn.addEventListener('focus', onHover);
       btn.addEventListener('mouseleave', onLeave);
+      btn.addEventListener('focus', onHover);
       btn.addEventListener('blur', onLeave);
-    });
-
-    // Recalculate max spear width and reposition spear on resize
-    window.addEventListener('resize', () => {
-      // Recalculate diag length and max width
-      const diag = Math.sqrt(window.innerWidth**2 + window.innerHeight**2);
-      maxSpearWidth = diag * 1.2;
-
-      // If spear is visible, update vertical center and position immediately
-      if (animFrame === null && currentColor) {
-        spear.style.top = `${getSpearVerticalCenter()}px`;
-        spear.style.left = `${window.innerWidth - (progress * maxSpearWidth) * Math.cos(angleRad)}px`;
-        spear.style.width = `${progress * maxSpearWidth}px`;
-      }
     });
   })();
 </script>
-</body>
-</html>
