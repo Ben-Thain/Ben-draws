@@ -10,63 +10,71 @@
     body {
       font-family: 'Lexend', sans-serif;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    .bg-flash::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%);
+    .animated-bg {
+      position: fixed;
       z-index: 0;
-      animation: pulse 5s infinite ease-in-out;
+      inset: 0;
+      background: linear-gradient(120deg, #1e1e2e, #1a1f3c, #1e1e2e);
+      background-size: 600% 600%;
+      animation: bgShift 20s ease infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 0.05;
-      }
-      50% {
-        opacity: 0.15;
-      }
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    .hover-screen-glow:hover ~ .bg-overlay {
-      opacity: 1;
-    }
-
-    .bg-overlay {
-      transition: background-color 0.4s ease;
+    .slash {
       pointer-events: none;
-      z-index: 1;
+      position: fixed;
+      z-index: 40;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      transform: translateX(-100%);
+      clip-path: polygon(0 0, 100% 100%, 100% 100%, 0 0);
+      opacity: 0;
+      transition: transform 0.5s ease, opacity 0.5s ease;
     }
 
-    .btn-effect {
+    .btn-slash:hover ~ .slash[data-color="blue"] {
+      background-color: #2563eb;
+      transform: translateX(0);
+      opacity: 0.15;
+    }
+
+    .btn-slash:hover ~ .slash[data-color="gray"] {
+      background-color: #52525b;
+      transform: translateX(0);
+      opacity: 0.15;
+    }
+
+    .btn-slash:hover ~ .slash[data-color="purple"] {
+      background-color: #9333ea;
+      transform: translateX(0);
+      opacity: 0.15;
+    }
+
+    .btn-slash {
       position: relative;
-      overflow: hidden;
+      z-index: 50;
+      transition: transform 0.2s ease;
     }
 
-    .btn-effect::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: -75%;
-      width: 200%;
-      height: 5px;
-      background: linear-gradient(120deg, rgba(255,255,255,0.5), transparent);
-      transform: rotate(-20deg);
-      transition: all 0.4s ease;
-    }
-
-    .btn-effect:hover::before {
-      left: 100%;
+    .btn-slash:hover {
+      transform: scale(1.02);
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col bg-flash relative z-10">
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col relative">
 
-  <!-- Dynamic Color Overlay -->
-  <div class="bg-overlay fixed inset-0 z-0 opacity-0 transition duration-300"></div>
+  <!-- Subtle animated background -->
+  <div class="animated-bg"></div>
 
   <!-- Header -->
   <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 z-10 relative">
@@ -80,13 +88,20 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center relative z-10">
+  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center z-10 relative">
     <h1 class="text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
     <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg btn-effect hover-screen-glow">Browse Library</a>
-      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg btn-effect hover-screen-glow">Request a Commission</a>
-      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg btn-effect hover-screen-glow">View Bundles</a>
+
+    <!-- Button group + slash overlays -->
+    <div class="relative flex flex-wrap justify-center gap-4 z-20">
+      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg btn-slash">Browse Library</a>
+      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl text-lg btn-slash">Request a Commission</a>
+      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl text-lg btn-slash">View Bundles</a>
+
+      <!-- Slash overlays -->
+      <div class="slash" data-color="blue"></div>
+      <div class="slash" data-color="gray"></div>
+      <div class="slash" data-color="purple"></div>
     </div>
   </section>
 
@@ -94,27 +109,5 @@
   <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800 z-10 relative">
     © 2025 Ben Draws. All rights reserved.
   </footer>
-
-  <script>
-    const overlay = document.querySelector('.bg-overlay');
-    const buttons = document.querySelectorAll('.hover-screen-glow');
-
-    buttons.forEach((btn) => {
-      btn.addEventListener('mouseenter', () => {
-        if (btn.textContent.includes("Library")) {
-          overlay.style.backgroundColor = "rgba(37, 99, 235, 0.15)"; // blue
-        } else if (btn.textContent.includes("Commission")) {
-          overlay.style.backgroundColor = "rgba(113, 113, 122, 0.15)"; // zinc
-        } else if (btn.textContent.includes("Bundle")) {
-          overlay.style.backgroundColor = "rgba(147, 51, 234, 0.15)"; // purple
-        }
-        overlay.style.opacity = 1;
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        overlay.style.opacity = 0;
-      });
-    });
-  </script>
 </body>
 </html>
