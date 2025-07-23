@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,58 +10,25 @@
     body {
       font-family: 'Lexend', sans-serif;
     }
-    summary {
-      list-style: none;
+
+    .tier-button {
+      margin-top: 1rem;
+    }
+
+    .tier summary {
       cursor: pointer;
       user-select: none;
-      position: relative;
-      padding-right: 2rem;
-      outline: none;
     }
-    summary::-webkit-details-marker {
-      display: none;
-    }
-    summary::after {
-      content: '▶';
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-weight: 700;
-      color: inherit;
-      pointer-events: none;
-    }
-    details[open] > summary::after {
-      content: '▼';
-    }
-    details.tier {
-      background-color: #27272a;
-      border: none;
-      box-shadow: none;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-      border-radius: 0.75rem;
-      padding: 1.25rem;
-      cursor: pointer;
-    }
-    details.standard-selected {
-      background-color: #166534;
+
+    .tier-selected {
       border: 2px solid #4ade80;
       box-shadow: 0 0 8px #4ade80;
-    }
-    details.pro-selected {
-      background-color: #1e40af;
-      border: 2px solid #2563eb;
-      box-shadow: 0 0 12px #2563eb;
-    }
-    details.elite-selected {
-      background-color: #5b21b6;
-      border: 2px solid #a78bfa;
-      box-shadow: 0 0 12px #a78bfa;
     }
   </style>
 </head>
 <body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
 
+  <!-- Header -->
   <header class="flex items-center justify-between p-6 md:px-12">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
@@ -70,102 +37,73 @@
     </nav>
   </header>
 
+  <!-- Page Title -->
   <section class="text-center px-4 py-10 max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-4">Choose Your Commission Tier</h1>
-    <p class="text-zinc-400 text-lg mb-8">Select your preferred commission tier and pay to get started.</p>
+    <h1 class="text-4xl font-bold mb-4">Commission a Wallpaper</h1>
+    <p class="text-zinc-400 text-lg">Want something custom? Select a tier and continue to payment.</p>
   </section>
 
-  <section class="max-w-3xl mx-auto px-6 md:px-12 mb-12">
+  <!-- Commission Tiers Section -->
+  <section class="max-w-3xl mx-auto px-6 md:px-12 mb-20">
+    <h2 class="text-3xl font-semibold mb-6 text-center">Choose Your Commission Tier</h2>
+
     <div id="tiers" class="space-y-6">
 
-      <details class="tier standard rounded-xl cursor-pointer" id="standardTier">
-        <summary class="text-xl font-semibold select-none">Standard – £5.99 <span class="text-zinc-400 text-sm ml-2">(Affordable and personal)</span></summary>
-        <ul class="mt-3 list-disc list-inside text-zinc-300">
+      <!-- Standard -->
+      <div class="tier bg-zinc-800 p-6 rounded-xl">
+        <h3 class="text-xl font-semibold mb-2">Standard – £5.99</h3>
+        <ul class="list-disc list-inside text-zinc-300 mb-4">
           <li>1 custom phone wallpaper</li>
-          <li>Standard resolution (for your device)</li>
+          <li>Standard resolution</li>
           <li>1 revision</li>
           <li><strong>Delivery in 1 month</strong></li>
         </ul>
-        <a href="https://buy.stripe.com/7sYbITarudTEgzqfRg1VK05" target="_blank" class="mt-4 inline-block bg-green-600 hover:bg-green-700 transition px-6 py-3 rounded text-white font-semibold">Pay £5.99</a>
-      </details>
+        <a href="https://buy.stripe.com/7sYbITarudTEgzqfRg1VK05" target="_blank">
+          <button class="tier-button w-full bg-green-600 hover:bg-green-700 transition px-4 py-3 rounded text-white font-semibold">
+            Pay & Continue
+          </button>
+        </a>
+      </div>
 
-      <details class="tier pro rounded-xl cursor-pointer" id="proTier" open>
-        <summary class="text-xl font-semibold select-none flex items-center justify-between">
-          Pro Edition – £7.99
-          <span class="flex items-center space-x-2">
-            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full select-none">Most Popular</span>
-            <span class="text-blue-200 text-sm">(Best value and detail)</span>
-          </span>
-        </summary>
-        <ul class="mt-3 list-disc list-inside text-blue-100">
+      <!-- Pro -->
+      <div class="tier bg-zinc-800 p-6 rounded-xl">
+        <h3 class="text-xl font-semibold mb-2">Pro – £5.99</h3>
+        <ul class="list-disc list-inside text-blue-200 mb-4">
           <li>1 custom phone wallpaper</li>
-          <li>High resolution (lock &amp; home screen formatting)</li>
+          <li>High resolution (lock & home screen formatting)</li>
           <li>3 revisions</li>
-          <li>Choose between 2 visual styles (e.g. warm/cool, gritty/clean)</li>
-          <li>Optional subtle signature or initials embedded</li>
+          <li>Choice of visual styles</li>
           <li><strong>Delivery in 1 week</strong></li>
         </ul>
-        <a href="https://buy.stripe.com/8x2fZ9aru7vg82U9sS1VK04" target="_blank" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold">Pay £7.99</a>
-      </details>
+        <a href="https://buy.stripe.com/8x2fZ9aru7vg82U9sS1VK04" target="_blank">
+          <button class="tier-button w-full bg-blue-600 hover:bg-blue-700 transition px-4 py-3 rounded text-white font-semibold">
+            Pay & Continue
+          </button>
+        </a>
+      </div>
 
-      <details class="tier elite rounded-xl cursor-pointer" id="eliteTier">
-        <summary class="text-xl font-semibold select-none">Deluxe Edition – £11.99 <span class="text-zinc-400 text-sm ml-2">(Faster, sharper, with extra polish)</span></summary>
-        <ul class="mt-3 list-disc list-inside text-zinc-300">
-          <li>Everything in Pro Edition</li>
-          <li>Extra color variant (e.g. day/night mode)</li>
-          <li>Multiple aspect ratios (iPhone/Android/tablet-ready)</li>
-          <li>Bonus thank-you sketch or signed note</li>
+      <!-- Deluxe -->
+      <div class="tier bg-zinc-800 p-6 rounded-xl">
+        <h3 class="text-xl font-semibold mb-2">Deluxe – £11.99</h3>
+        <ul class="list-disc list-inside text-purple-200 mb-4">
+          <li>Everything in Pro</li>
+          <li>Extra color variant</li>
+          <li>Multiple aspect ratios</li>
+          <li>Bonus thank-you sketch or signature</li>
           <li><strong>Priority delivery in 5 days</strong></li>
         </ul>
-        <a href="https://buy.stripe.com/00wbITczC3f0eri34u1VK03" target="_blank" class="mt-4 inline-block bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded text-white font-semibold">Pay £11.99</a>
-      </details>
+        <a href="https://buy.stripe.com/00wbITczC3f0eri34u1VK03" target="_blank">
+          <button class="tier-button w-full bg-purple-700 hover:bg-purple-800 transition px-4 py-3 rounded text-white font-semibold">
+            Pay & Continue
+          </button>
+        </a>
+      </div>
 
     </div>
-
-    <p class="mt-12 text-center text-zinc-400">
-      After completing your payment, please <a href="commission-form.html" class="text-blue-400 underline">fill out this form</a> to submit your commission details.
-    </p>
   </section>
 
   <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
     © 2025 Ben Draws. Commissions | Wallpapers
   </footer>
-
-  <script>
-    const tiers = document.querySelectorAll('.tier');
-
-    function selectTier(selectedTier) {
-      tiers.forEach(tier => {
-        tier.classList.remove('standard-selected', 'pro-selected', 'elite-selected');
-        if (tier === selectedTier) {
-          tier.setAttribute('open', '');
-          if (tier.classList.contains('standard')) {
-            tier.classList.add('standard-selected');
-          } else if (tier.classList.contains('pro')) {
-            tier.classList.add('pro-selected');
-          } else if (tier.classList.contains('elite')) {
-            tier.classList.add('elite-selected');
-          }
-        } else {
-          tier.removeAttribute('open');
-        }
-      });
-    }
-
-    // Initialize - Pro Edition selected by default
-    const defaultSelected = Array.from(tiers).find(tier => tier.hasAttribute('open'));
-    if (!defaultSelected) {
-      selectTier(tiers[1]);
-    } else {
-      selectTier(defaultSelected);
-    }
-
-    tiers.forEach(tier => {
-      tier.querySelector('summary').addEventListener('click', (e) => {
-        e.preventDefault();
-        selectTier(tier);
-      });
-    });
-  </script>
 </body>
 </html>
