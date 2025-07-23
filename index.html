@@ -5,14 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ben Draws | Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Lexend', sans-serif;
+      /* Use a CSS variable for background color */
+      background-color: var(--bg-color, #18181b); /* default zinc-950 */
+      transition: background-color 0.5s ease;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col">
+<body class="text-white min-h-screen flex flex-col" style="--bg-color: #18181b;">
   <!-- Header -->
   <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
@@ -29,9 +32,9 @@
     <h1 class="text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
     <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
     <div class="flex flex-wrap justify-center gap-4">
-      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg">Browse Library</a>
-      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg">Request a Commission</a>
-      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg">View Bundles</a>
+      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#1e40af">Browse Library</a>
+      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#3f3f46">Request a Commission</a>
+      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#5b21b6">View Bundles</a>
     </div>
   </section>
 
@@ -39,5 +42,38 @@
   <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800">
     © 2025 Ben Draws. All rights reserved.
   </footer>
+
+  <script>
+    // We'll darken the colors further slightly on background change
+    function darkenColor(color, amount = 0.2) {
+      // color in hex, amount between 0 and 1 to darken
+      // convert hex to rgb
+      const num = parseInt(color.slice(1), 16);
+      let r = (num >> 16) & 0xff;
+      let g = (num >> 8) & 0xff;
+      let b = num & 0xff;
+
+      r = Math.max(0, Math.floor(r * (1 - amount)));
+      g = Math.max(0, Math.floor(g * (1 - amount)));
+      b = Math.max(0, Math.floor(b * (1 - amount)));
+
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    const body = document.body;
+    const buttons = document.querySelectorAll('section a');
+
+    buttons.forEach(button => {
+      const baseColor = button.getAttribute('data-bg');
+      const darkBg = darkenColor(baseColor, 0.3); // darken 30% for subtle effect
+
+      button.addEventListener('mouseenter', () => {
+        body.style.setProperty('--bg-color', darkBg);
+      });
+      button.addEventListener('mouseleave', () => {
+        body.style.setProperty('--bg-color', '#18181b'); // default zinc-950
+      });
+    });
+  </script>
 </body>
 </html>
