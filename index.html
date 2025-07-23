@@ -9,75 +9,12 @@
   <style>
     body {
       font-family: 'Lexend', sans-serif;
-      overflow-x: hidden;
-      transition: background 1.2s ease;
-    }
-
-    .color-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      transition: background 1.5s ease;
-      opacity: 0.7;
-    }
-
-    body.hover-blue .color-overlay {
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
-    }
-
-    body.hover-gray .color-overlay {
-      background: linear-gradient(135deg, #1e1e1e, #3f3f46);
-    }
-
-    body.hover-purple .color-overlay {
-      background: linear-gradient(135deg, #4c1d95, #9333ea);
-    }
-
-    .hero-wrapper {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 10rem 1rem;
-      gap: 7rem;
-    }
-
-    .big-title {
-      font-size: 7rem;
-      font-weight: 900;
-      line-height: 1.1;
-      z-index: 10;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-
-    @media (min-width: 768px) {
-      .big-title {
-        font-size: 10rem;
-      }
-    }
-
-    .spear-slash {
-      position: absolute;
-      top: 50%;
-      left: 100%;
-      height: 50px;
-      width: 0;
-      transform: rotate(-20deg);
-      transform-origin: left;
-      transition: width 0.8s ease, left 0.8s ease;
-      z-index: 50;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col relative">
-  <div id="overlay" class="color-overlay"></div>
-
-  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 relative z-20">
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
@@ -87,64 +24,20 @@
     </nav>
   </header>
 
-  <section class="hero-wrapper relative z-10">
-    <h1 class="big-title relative z-30">Your Phone, Your Vibe</h1>
-    <p class="text-zinc-300 text-xl max-w-xl relative z-30">Original and custom phone wallpapers to make your home screen pop.</p>
-    <div class="flex flex-wrap justify-center gap-8 relative z-30">
-      <div class="relative group">
-        <a href="library.html" class="bg-blue-600 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg relative z-40" 
-           onmouseover="activateEffect('blue', this)" 
-           onmouseout="resetEffect(this)">Browse Library</a>
-        <div class="spear-slash" id="slash-blue"></div>
-      </div>
-      <div class="relative group">
-        <a href="commissions.html" class="bg-zinc-700 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg relative z-40" 
-           onmouseover="activateEffect('gray', this)" 
-           onmouseout="resetEffect(this)">Request a Commission</a>
-        <div class="spear-slash" id="slash-gray"></div>
-      </div>
-      <div class="relative group">
-        <a href="bundles.html" class="bg-purple-600 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg relative z-40" 
-           onmouseover="activateEffect('purple', this)" 
-           onmouseout="resetEffect(this)">View Bundles</a>
-        <div class="spear-slash" id="slash-purple"></div>
-      </div>
+  <!-- Hero Section -->
+  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center">
+    <h1 class="text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
+    <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg">Browse Library</a>
+      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg">Request a Commission</a>
+      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg">View Bundles</a>
     </div>
   </section>
 
-  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800 relative z-20">
+  <!-- Footer -->
+  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800">
     © 2025 Ben Draws. All rights reserved.
   </footer>
-
-  <script>
-    function activateEffect(color, el) {
-      document.body.classList.remove('hover-blue', 'hover-gray', 'hover-purple');
-      document.body.classList.add(`hover-${color}`);
-
-      const slash = document.getElementById(`slash-${color}`);
-      const rect = el.getBoundingClientRect();
-      const btnColor = getComputedStyle(el).backgroundColor;
-
-      slash.style.backgroundColor = btnColor;
-      slash.style.top = `${rect.top + rect.height / 2 + window.scrollY - 25}px`;
-      slash.style.left = '100%';
-      slash.style.height = '50px';
-      slash.style.width = '0';
-
-      setTimeout(() => {
-        slash.style.left = '-1500px';
-        slash.style.width = '3000px';
-      }, 10);
-    }
-
-    function resetEffect(el) {
-      document.body.classList.remove('hover-blue', 'hover-gray', 'hover-purple');
-      const slashes = document.querySelectorAll('.spear-slash');
-      slashes.forEach(slash => {
-        slash.style.left = '100%';
-        slash.style.width = '0';
-      });
-    }
-  </script>
 </body>
 </html>
