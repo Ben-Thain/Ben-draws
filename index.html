@@ -9,8 +9,7 @@
   <style>
     body {
       font-family: 'Lexend', sans-serif;
-      /* Use a CSS variable for background color */
-      background-color: var(--bg-color, #18181b); /* default zinc-950 */
+      background-color: var(--bg-color, #18181b);
       transition: background-color 0.5s ease;
     }
   </style>
@@ -33,7 +32,7 @@
     <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
     <div class="flex flex-wrap justify-center gap-4">
       <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#1e40af">Browse Library</a>
-      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#3f3f46">Request a Commission</a>
+      <a href="commissions.html" class="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#7f1d1d">Request a Commission</a>
       <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg" data-bg="#5b21b6">View Bundles</a>
     </div>
   </section>
@@ -44,10 +43,8 @@
   </footer>
 
   <script>
-    // We'll darken the colors further slightly on background change
-    function darkenColor(color, amount = 0.2) {
-      // color in hex, amount between 0 and 1 to darken
-      // convert hex to rgb
+    // Darken color by given amount (0 to 1)
+    function darkenColor(color, amount = 0.5) {
       const num = parseInt(color.slice(1), 16);
       let r = (num >> 16) & 0xff;
       let g = (num >> 8) & 0xff;
@@ -65,7 +62,7 @@
 
     buttons.forEach(button => {
       const baseColor = button.getAttribute('data-bg');
-      const darkBg = darkenColor(baseColor, 0.3); // darken 30% for subtle effect
+      const darkBg = darkenColor(baseColor, 0.5); // 50% darker for stronger effect
 
       button.addEventListener('mouseenter', () => {
         body.style.setProperty('--bg-color', darkBg);
