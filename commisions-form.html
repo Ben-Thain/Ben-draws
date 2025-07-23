@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Commission Form | Ben Draws</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between p-6 md:px-12">
+    <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
+    <nav class="space-x-6 text-sm">
+      <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+      <a href="library.html" class="hover:text-blue-400 transition">Wallpaper Library</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-2xl mx-auto p-6 md:px-12">
+    <div id="form-container" class="hidden">
+      <h1 class="text-4xl font-bold mb-6 text-center">Commission Form</h1>
+      <form action="https://formsubmit.co/bendraws143@gmail.com" method="POST" enctype="multipart/form-data" class="bg-zinc-800 p-6 rounded-xl shadow space-y-6">
+        <!-- Redirect to thank-you -->
+        <input type="hidden" name="_next" value="https://ben-draws.pages.dev/thank-you.html" />
+
+        <label class="block">
+          <span class="text-sm text-zinc-400">Your Name</span>
+          <input type="text" name="name" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" />
+        </label>
+
+        <label class="block">
+          <span class="text-sm text-zinc-400">Your Email</span>
+          <input type="email" name="email" required class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white" />
+        </label>
+
+        <label class="block">
+          <span class="text-sm text-zinc-400">Wallpaper Idea</span>
+          <textarea
+            name="message"
+            rows="5"
+            required
+            class="mt-1 w-full p-3 rounded bg-zinc-900 border border-zinc-700 text-white"
+            placeholder="Describe your concept..."
+          ></textarea>
+        </label>
+
+        <label class="block">
+          <span class="text-sm text-zinc-400">Reference Image (optional)</span>
+          <input
+            type="file"
+            name="attachment"
+            accept="image/*"
+            class="mt-1 block w-full text-white file:bg-blue-600 file:hover:bg-blue-700 file:transition file:rounded file:px-4 file:py-2 bg-zinc-900 border border-zinc-700 rounded-md"
+          />
+        </label>
+
+        <button
+          type="submit"
+          class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold w-full"
+        >
+          Submit Commission
+        </button>
+      </form>
+    </div>
+
+    <div id="pay-first-message" class="hidden text-center text-red-400 mt-12">
+      <h2 class="text-2xl font-semibold mb-4">Please complete payment first</h2>
+      <p class="mb-6">You need to pay for a commission tier before accessing the form.</p>
+      <a href="commissions.html" class="inline-block bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded text-white font-semibold">
+        Go to Commission Tiers & Pay
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-zinc-500 text-sm py-6 mt-auto">
+    © 2025 Ben Draws. Commissions | Wallpapers
+  </footer>
+
+  <script>
+    // Check if URL contains ?paid=true
+    function urlHasPaidParam() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('paid') === 'true';
+    }
+
+    const formContainer = document.getElementById('form-container');
+    const payFirstMessage = document.getElementById('pay-first-message');
+
+    if (urlHasPaidParam()) {
+      formContainer.classList.remove('hidden');
+      payFirstMessage.classList.add('hidden');
+    } else {
+      formContainer.classList.add('hidden');
+      payFirstMessage.classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
 
