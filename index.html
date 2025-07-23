@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,8 +14,6 @@
       position: relative;
       overflow-x: hidden;
       min-height: 100vh;
-
-      /* Enhanced animated gradient background with multiple colors blending */
       background-image: linear-gradient(
         270deg,
         #1e40af 0%,
@@ -39,7 +37,21 @@
       }
     }
 
-    /* Hero title with letter spacing gather effect */
+    /* Parallax background movement */
+    .parallax-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: inherit;
+      z-index: -2;
+      transform: translate(-25%, -25%);
+      pointer-events: none;
+      transition: transform 0.2s ease-out;
+    }
+
+    /* Hero title animation */
     .hero-title {
       opacity: 0;
       letter-spacing: 0.6em;
@@ -57,16 +69,29 @@
       }
     }
 
-    /* Button glow effect */
+    /* Cursor */
+    #cursor-circle {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: background-color 0.3s ease, transform 0.15s ease;
+    }
+
+    /* Glow + ripple base */
     a.transition {
       position: relative;
       z-index: 0;
-      transition:
-        color 0.3s ease,
-        background-color 0.3s ease;
-      cursor: pointer;
       overflow: hidden;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
+
+    /* Glow */
     a.transition::before {
       content: '';
       position: absolute;
@@ -79,11 +104,8 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: -1;
-      pointer-events: none;
-      background-color: transparent;
     }
 
-    /* Glow colors */
     a[data-bg="#1e40af"]::before {
       background-color: rgba(30, 64, 175, 0.6);
     }
@@ -93,11 +115,18 @@
     a[data-bg="#5b21b6"]::before {
       background-color: rgba(91, 33, 182, 0.6);
     }
+
     a.transition:hover::before {
       opacity: 1;
     }
 
-    /* Ripple animation container */
+    /* Hover distortion (like water ripple / heat shimmer) */
+    a.transition:hover {
+      transform: perspective(400px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+      filter: url('#distort');
+    }
+
+    /* Optional ripple */
     a .ripple {
       position: absolute;
       border-radius: 50%;
@@ -114,47 +143,14 @@
         opacity: 0;
       }
     }
-
-    /* Cursor styles */
-    body {
-      cursor: default;
-      transition: cursor 0.3s ease;
-    }
-    /* Custom cursor circle */
-    #cursor-circle {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.2);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: background-color 0.3s ease, transform 0.15s ease;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      will-change: transform, background-color;
-    }
-    /* Cursor hover color changes */
-    a[data-bg="#1e40af"]:hover ~ #cursor-circle {
-      background-color: rgba(30, 64, 175, 0.8);
-      transform: translate(-50%, -50%) scale(1.5);
-    }
-    a[data-bg="#7f1d1d"]:hover ~ #cursor-circle {
-      background-color: rgba(127, 29, 29, 0.8);
-      transform: translate(-50%, -50%) scale(1.5);
-    }
-    a[data-bg="#5b21b6"]:hover ~ #cursor-circle {
-      background-color: rgba(91, 33, 182, 0.8);
-      transform: translate(-50%, -50%) scale(1.5);
-    }
-
   </style>
 </head>
-<body class="text-white min-h-screen flex flex-col" style="--bg-color: #18181b;">
+<body class="text-white flex flex-col" style="--bg-color: #18181b;">
+  <!-- Parallax Background Layer -->
+  <div class="parallax-layer" id="parallax-bg"></div>
+
   <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
+  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 relative z-10">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
@@ -180,11 +176,19 @@
     © 2025 Ben Draws. All rights reserved.
   </footer>
 
-  <!-- Custom cursor circle -->
+  <!-- Cursor -->
   <div id="cursor-circle"></div>
 
+  <!-- SVG filter for distortion -->
+  <svg>
+    <filter id="distort">
+      <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="2" result="turb"/>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="6" />
+    </filter>
+  </svg>
+
   <script>
-    // Background darken helper
+    // Darken helper
     function darkenColor(color, amount = 0.5) {
       const num = parseInt(color.slice(1), 16);
       let r = (num >> 16) & 0xff;
@@ -201,8 +205,8 @@
     const body = document.body;
     const buttons = document.querySelectorAll('section a');
     const cursor = document.getElementById('cursor-circle');
+    const bg = document.getElementById('parallax-bg');
 
-    // Background color change on hover
     buttons.forEach(button => {
       const baseColor = button.getAttribute('data-bg');
       const darkBg = darkenColor(baseColor, 0.5);
@@ -210,41 +214,33 @@
       button.addEventListener('mouseenter', () => {
         body.style.setProperty('--bg-color', darkBg);
       });
+
       button.addEventListener('mouseleave', () => {
         body.style.setProperty('--bg-color', '#18181b');
       });
 
       // Ripple effect on hover
-      button.addEventListener('mouseenter', (e) => {
+      button.addEventListener('mouseenter', e => {
         const rect = button.getBoundingClientRect();
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');
-
-        // Position ripple at edge closest to cursor
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
         ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
-
+        ripple.style.left = (e.clientX - rect.left) + 'px';
+        ripple.style.top = (e.clientY - rect.top) + 'px';
         button.appendChild(ripple);
-
-        ripple.addEventListener('animationend', () => {
-          ripple.remove();
-        });
+        ripple.addEventListener('animationend', () => ripple.remove());
       });
     });
 
-    // Custom cursor follow & color change
+    // Cursor follow
     window.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
-    });
 
-  </script>
-</body>
-</html>
-
+      // Parallax movement
+      const offsetX = (e.clientX / window.innerWidth - 0.5) * 20;
+      const offsetY = (e.clientY / window.innerHeight - 0.5) * 20;
+      bg.style.transform = `translate(${-25 + offsetX}px, ${-25 + offsetY}px)`;
     });
   </script>
 </body>
