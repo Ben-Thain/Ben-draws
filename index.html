@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,10 +14,17 @@
       position: relative;
       overflow-x: hidden;
       min-height: 100vh;
-      /* animated gradient background */
-      background-image: linear-gradient(270deg, #1e40af, #7f1d1d, #5b21b6);
-      background-size: 600% 600%;
-      animation: gradientShift 30s ease infinite;
+
+      /* Enhanced animated gradient background with multiple colors blending */
+      background-image: linear-gradient(
+        270deg,
+        #1e40af 0%,
+        #7f1d1d 33%,
+        #5b21b6 66%,
+        #1e40af 100%
+      );
+      background-size: 800% 800%;
+      animation: gradientShift 25s ease infinite;
     }
 
     @keyframes gradientShift {
@@ -32,17 +39,20 @@
       }
     }
 
-    /* Heading fade/slide in */
+    /* Hero title with letter spacing gather effect */
     .hero-title {
       opacity: 0;
-      transform: translateY(20px);
-      animation: fadeSlideIn 1.2s ease forwards;
+      letter-spacing: 0.6em;
+      transform: translateY(10px);
+      animation: gatherLetters 1.5s ease forwards;
       animation-delay: 0.3s;
+      display: inline-block;
     }
 
-    @keyframes fadeSlideIn {
+    @keyframes gatherLetters {
       to {
         opacity: 1;
+        letter-spacing: 0;
         transform: translateY(0);
       }
     }
@@ -51,7 +61,11 @@
     a.transition {
       position: relative;
       z-index: 0;
-      transition: color 0.3s ease, background-color 0.3s ease;
+      transition:
+        color 0.3s ease,
+        background-color 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
     }
     a.transition::before {
       content: '';
@@ -65,21 +79,77 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: -1;
-    }
-    /* Specific glow colors for each button */
-    a[data-bg="#1e40af"]::before {
-      background-color: rgba(30, 64, 175, 0.6); /* blue glow */
-    }
-    a[data-bg="#7f1d1d"]::before {
-      background-color: rgba(127, 29, 29, 0.6); /* red glow */
-    }
-    a[data-bg="#5b21b6"]::before {
-      background-color: rgba(91, 33, 182, 0.6); /* purple glow */
+      pointer-events: none;
+      background-color: transparent;
     }
 
+    /* Glow colors */
+    a[data-bg="#1e40af"]::before {
+      background-color: rgba(30, 64, 175, 0.6);
+    }
+    a[data-bg="#7f1d1d"]::before {
+      background-color: rgba(127, 29, 29, 0.6);
+    }
+    a[data-bg="#5b21b6"]::before {
+      background-color: rgba(91, 33, 182, 0.6);
+    }
     a.transition:hover::before {
       opacity: 1;
     }
+
+    /* Ripple animation container */
+    a .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleEffect 0.6s linear;
+      background-color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Cursor styles */
+    body {
+      cursor: default;
+      transition: cursor 0.3s ease;
+    }
+    /* Custom cursor circle */
+    #cursor-circle {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      will-change: transform, background-color;
+    }
+    /* Cursor hover color changes */
+    a[data-bg="#1e40af"]:hover ~ #cursor-circle {
+      background-color: rgba(30, 64, 175, 0.8);
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    a[data-bg="#7f1d1d"]:hover ~ #cursor-circle {
+      background-color: rgba(127, 29, 29, 0.8);
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    a[data-bg="#5b21b6"]:hover ~ #cursor-circle {
+      background-color: rgba(91, 33, 182, 0.8);
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+
   </style>
 </head>
 <body class="text-white min-h-screen flex flex-col" style="--bg-color: #18181b;">
@@ -110,7 +180,11 @@
     © 2025 Ben Draws. All rights reserved.
   </footer>
 
+  <!-- Custom cursor circle -->
+  <div id="cursor-circle"></div>
+
   <script>
+    // Background darken helper
     function darkenColor(color, amount = 0.5) {
       const num = parseInt(color.slice(1), 16);
       let r = (num >> 16) & 0xff;
@@ -126,7 +200,9 @@
 
     const body = document.body;
     const buttons = document.querySelectorAll('section a');
+    const cursor = document.getElementById('cursor-circle');
 
+    // Background color change on hover
     buttons.forEach(button => {
       const baseColor = button.getAttribute('data-bg');
       const darkBg = darkenColor(baseColor, 0.5);
@@ -137,6 +213,38 @@
       button.addEventListener('mouseleave', () => {
         body.style.setProperty('--bg-color', '#18181b');
       });
+
+      // Ripple effect on hover
+      button.addEventListener('mouseenter', (e) => {
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+
+        // Position ripple at edge closest to cursor
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+
+        button.appendChild(ripple);
+
+        ripple.addEventListener('animationend', () => {
+          ripple.remove();
+        });
+      });
+    });
+
+    // Custom cursor follow & color change
+    window.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+  </script>
+</body>
+</html>
+
     });
   </script>
 </body>
