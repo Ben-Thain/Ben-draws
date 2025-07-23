@@ -9,12 +9,67 @@
   <style>
     body {
       font-family: 'Lexend', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bg-flash::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%);
+      z-index: 0;
+      animation: pulse 5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.05;
+      }
+      50% {
+        opacity: 0.15;
+      }
+    }
+
+    .hover-screen-glow:hover ~ .bg-overlay {
+      opacity: 1;
+    }
+
+    .bg-overlay {
+      transition: background-color 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .btn-effect {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-effect::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -75%;
+      width: 200%;
+      height: 5px;
+      background: linear-gradient(120deg, rgba(255,255,255,0.5), transparent);
+      transform: rotate(-20deg);
+      transition: all 0.4s ease;
+    }
+
+    .btn-effect:hover::before {
+      left: 100%;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col">
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col bg-flash relative z-10">
+
+  <!-- Dynamic Color Overlay -->
+  <div class="bg-overlay fixed inset-0 z-0 opacity-0 transition duration-300"></div>
+
   <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
+  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 z-10 relative">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
@@ -25,19 +80,41 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center">
+  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center relative z-10">
     <h1 class="text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
     <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
     <div class="flex flex-wrap justify-center gap-4">
-      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg">Browse Library</a>
-      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg">Request a Commission</a>
-      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg">View Bundles</a>
+      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg btn-effect hover-screen-glow">Browse Library</a>
+      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl transition text-lg btn-effect hover-screen-glow">Request a Commission</a>
+      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg btn-effect hover-screen-glow">View Bundles</a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800">
+  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800 z-10 relative">
     © 2025 Ben Draws. All rights reserved.
   </footer>
+
+  <script>
+    const overlay = document.querySelector('.bg-overlay');
+    const buttons = document.querySelectorAll('.hover-screen-glow');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('mouseenter', () => {
+        if (btn.textContent.includes("Library")) {
+          overlay.style.backgroundColor = "rgba(37, 99, 235, 0.15)"; // blue
+        } else if (btn.textContent.includes("Commission")) {
+          overlay.style.backgroundColor = "rgba(113, 113, 122, 0.15)"; // zinc
+        } else if (btn.textContent.includes("Bundle")) {
+          overlay.style.backgroundColor = "rgba(147, 51, 234, 0.15)"; // purple
+        }
+        overlay.style.opacity = 1;
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        overlay.style.opacity = 0;
+      });
+    });
+  </script>
 </body>
 </html>
