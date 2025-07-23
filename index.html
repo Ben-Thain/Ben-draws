@@ -36,8 +36,33 @@
       }
     }
 
-    .button-hover:hover {
-      cursor: pointer;
+    .button-hover {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .button-hover::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translate(-50%, -50%) scale(0);
+      border-radius: 50%;
+      transition: transform 0.5s ease;
+      z-index: 0;
+    }
+
+    .button-hover:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .button-hover span {
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
@@ -58,9 +83,9 @@
     <h1 class="hero-title text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
     <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
     <div class="flex flex-wrap justify-center gap-4">
-      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg button-hover" data-bg="#1e3a8a">Browse Library</a>
-      <a href="commissions.html" class="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-xl transition text-lg button-hover" data-bg="#7f1d1d">Request a Commission</a>
-      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg button-hover" data-bg="#5b21b6">View Bundles</a>
+      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl transition text-lg button-hover" data-bg="#1e3a8a"><span>Browse Library</span></a>
+      <a href="commissions.html" class="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-xl transition text-lg button-hover" data-bg="#7f1d1d"><span>Request a Commission</span></a>
+      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl transition text-lg button-hover" data-bg="#5b21b6"><span>View Bundles</span></a>
     </div>
   </section>
 
@@ -90,10 +115,19 @@
 
       btn.addEventListener('mouseenter', () => {
         body.style.backgroundColor = darkColor;
+        btn.style.transform = 'scale(1.05)';
+      });
+
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        btn.style.transform = `translate(${(x - rect.width / 2) * 0.05}px, ${(y - rect.height / 2) * 0.05}px) scale(1.05)`;
       });
 
       btn.addEventListener('mouseleave', () => {
         body.style.backgroundColor = '';
+        btn.style.transform = 'translate(0, 0) scale(1)';
       });
     });
   </script>
