@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ben Draws | Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Lexend', sans-serif;
@@ -16,15 +16,9 @@
     }
 
     @keyframes gradientShift {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     h1.hero-title {
@@ -46,7 +40,6 @@
       position: relative;
       overflow: hidden;
       transition: transform 0.3s ease;
-      cursor: pointer;
     }
 
     .button-hover span {
@@ -54,34 +47,24 @@
       z-index: 1;
     }
 
-    /* Particles */
-    #particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-
+    /* Particle style */
     .particle {
       position: absolute;
-      width: 12px;
-      height: 12px;
+      width: 20px;
+      height: 20px;
       background: #fff;
       border-radius: 50%;
       pointer-events: none;
       user-select: none;
       z-index: 0;
+      opacity: 0.9;
     }
   </style>
 </head>
 <body class="text-white min-h-screen flex flex-col transition-colors duration-500" id="page-body">
   <div id="particles"></div>
   <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 z-10 relative">
+  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
@@ -92,7 +75,7 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center relative z-10">
+  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center">
     <h1 class="hero-title text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
     <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
     <div class="flex flex-wrap justify-center gap-4">
@@ -103,7 +86,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800 relative z-10">
+  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800">
     © 2025 Ben Draws. All rights reserved.
   </footer>
 
@@ -122,7 +105,7 @@
       return `rgb(${r}, ${g}, ${b})`;
     }
 
-    buttons.forEach((btn) => {
+    buttons.forEach(btn => {
       const color = btn.getAttribute('data-bg');
       const darkColor = darken(color);
 
@@ -131,7 +114,7 @@
         btn.style.transform = 'scale(1.05)';
       });
 
-      btn.addEventListener('mousemove', (e) => {
+      btn.addEventListener('mousemove', e => {
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -144,21 +127,19 @@
       });
     });
 
-    // Particle system with gravity and bouncing
-    const particles = document.getElementById('particles');
-    const particleCount = 50;
-    const particlesArray = [];
-
+    // Particle physics
     const gravity = 0.15;
-    const bounceFactor = 0.6; // Energy loss on bounce
-    const friction = 0.99; // Horizontal speed loss to simulate friction
+    const bounceFactor = 0.85; // more bounce (less energy lost)
+    const friction = 0.99;
+
+    const particles = document.getElementById('particles');
 
     class Particle {
       constructor() {
-        this.radius = 6; // 12px diameter
+        this.radius = 10; // 20px diameter
         this.x = Math.random() * (window.innerWidth - this.radius * 2) + this.radius;
-        this.y = Math.random() * (window.innerHeight / 2); // Start in upper half
-        this.vx = (Math.random() - 0.5) * 2; // small random horizontal speed
+        this.y = Math.random() * (window.innerHeight / 2);
+        this.vx = (Math.random() - 0.5) * 2;
         this.vy = 0;
 
         this.el = document.createElement('div');
@@ -170,8 +151,7 @@
       }
 
       updatePosition() {
-        this.el.style.left = this.x - this.radius + 'px';
-        this.el.style.top = this.y - this.radius + 'px';
+        this.el.style.transform = `translate(${this.x - this.radius}px, ${this.y - this.radius}px)`;
       }
 
       move() {
@@ -182,91 +162,110 @@
         // Floor collision
         if (this.y + this.radius > window.innerHeight) {
           this.y = window.innerHeight - this.radius;
-          this.vy *= -bounceFactor;
-
-          // Friction slows horizontal movement on bounce
+          this.vy = -this.vy * bounceFactor;
           this.vx *= friction;
-
-          // If velocity is very small, stop bouncing
-          if (Math.abs(this.vy) < 0.5) {
-            this.vy = 0;
-          }
-          if (Math.abs(this.vx) < 0.01) {
-            this.vx = 0;
-          }
+          if (Math.abs(this.vy) < 0.1) this.vy = 0;
         }
 
-        // Wall collisions - bounce horizontally
+        // Wall collision
         if (this.x + this.radius > window.innerWidth) {
           this.x = window.innerWidth - this.radius;
-          this.vx *= -bounceFactor;
+          this.vx = -this.vx * bounceFactor;
         } else if (this.x - this.radius < 0) {
           this.x = this.radius;
-          this.vx *= -bounceFactor;
+          this.vx = -this.vx * bounceFactor;
         }
       }
 
       collide(other) {
         const dx = other.x - this.x;
         const dy = other.y - this.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < this.radius + other.radius) {
-          // Elastic collision with energy loss
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const minDist = this.radius + other.radius;
+
+        if (dist < minDist) {
+          // simple elastic collision response
           const angle = Math.atan2(dy, dx);
           const sin = Math.sin(angle);
           const cos = Math.cos(angle);
 
-          // Rotate velocities to collision axis
-          const vx1 = this.vx * cos + this.vy * sin;
-          const vy1 = this.vy * cos - this.vx * sin;
-          const vx2 = other.vx * cos + other.vy * sin;
-          const vy2 = other.vy * cos - other.vx * sin;
+          // Rotate particle positions
+          const pos0 = { x: 0, y: 0 };
+          const pos1 = {
+            x: dx * cos + dy * sin,
+            y: dy * cos - dx * sin
+          };
 
-          // Exchange velocities with damping
-          const vx1Final = vx2 * bounceFactor;
-          const vx2Final = vx1 * bounceFactor;
+          // Rotate velocities
+          const vel0 = {
+            x: this.vx * cos + this.vy * sin,
+            y: this.vy * cos - this.vx * sin
+          };
+          const vel1 = {
+            x: other.vx * cos + other.vy * sin,
+            y: other.vy * cos - other.vx * sin
+          };
 
-          // Rotate back velocities
-          this.vx = vx1Final * cos - vy1 * sin;
-          this.vy = vy1 * cos + vx1Final * sin;
-          other.vx = vx2Final * cos - vy2 * sin;
-          other.vy = vy2 * cos + vx2Final * sin;
+          // Collision reaction
+          const vxTotal = vel0.x - vel1.x;
+          vel0.x = ((this.radius - other.radius) * vel0.x + 2 * other.radius * vel1.x) / (this.radius + other.radius);
+          vel1.x = vxTotal + vel0.x;
 
-          // Separate overlapping particles
-          const overlap = this.radius + other.radius - dist;
-          const smallerMass = 1;
-          this.x -= (overlap * (dx / dist)) * smallerMass;
-          this.y -= (overlap * (dy / dist)) * smallerMass;
-          other.x += (overlap * (dx / dist)) * smallerMass;
-          other.y += (overlap * (dy / dist)) * smallerMass;
+          // Update positions to avoid overlap
+          const absV = Math.abs(vel0.x) + Math.abs(vel1.x);
+          const overlap = minDist - dist;
+
+          pos0.x += vel0.x / absV * overlap;
+          pos1.x += vel1.x / absV * overlap;
+
+          // Rotate positions back
+          const pos0F = {
+            x: pos0.x * cos - pos0.y * sin,
+            y: pos0.y * cos + pos0.x * sin
+          };
+          const pos1F = {
+            x: pos1.x * cos - pos1.y * sin,
+            y: pos1.y * cos + pos1.x * sin
+          };
+
+          // Update particle positions
+          other.x = this.x + pos1F.x;
+          other.y = this.y + pos1F.y;
+          this.x = this.x + pos0F.x;
+          this.y = this.y + pos0F.y;
+
+          // Rotate velocities back
+          this.vx = vel0.x * cos - vel0.y * sin;
+          this.vy = vel0.y * cos + vel0.x * sin;
+          other.vx = vel1.x * cos - vel1.y * sin;
+          other.vy = vel1.y * cos + vel1.x * sin;
         }
       }
     }
 
-    for (let i = 0; i < particleCount; i++) {
+    const particlesArray = [];
+    const PARTICLE_COUNT = 40;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
       particlesArray.push(new Particle());
     }
 
     function animate() {
-      for (let i = 0; i < particlesArray.length; i++) {
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
         const p = particlesArray[i];
         p.move();
-        for (let j = i + 1; j < particlesArray.length; j++) {
+
+        for (let j = i + 1; j < PARTICLE_COUNT; j++) {
           p.collide(particlesArray[j]);
         }
-        p.updatePosition();
       }
+
+      particlesArray.forEach(p => p.updatePosition());
+
       requestAnimationFrame(animate);
     }
 
     animate();
-
-    window.addEventListener('resize', () => {
-      particlesArray.forEach(p => {
-        p.x = Math.min(p.x, window.innerWidth - p.radius);
-        p.y = Math.min(p.y, window.innerHeight - p.radius);
-      });
-    });
   </script>
 </body>
 </html>
