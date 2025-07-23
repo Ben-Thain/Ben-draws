@@ -9,67 +9,62 @@
   <style>
     body {
       font-family: 'Lexend', sans-serif;
-      position: relative;
       overflow-x: hidden;
     }
-
-    /* Background Animation */
-    .animated-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      background: linear-gradient(120deg, #1e1e2e, #3f1f60, #1a1f3c);
-      background-size: 200% 200%;
-      animation: moveBg 15s ease infinite;
+    .bg-animated {
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #4e54c8);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
     }
-
-    @keyframes moveBg {
+    @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
-    /* Slash Animation */
-    .animated-button {
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease;
-    }
-
-    .animated-button::before {
-      content: "";
+    .button-slice::before {
+      content: '';
       position: absolute;
-      top: -150%;
-      left: -150%;
-      width: 400%;
-      height: 400%;
-      background: rgba(255, 255, 255, 0.08);
-      transform: rotate(45deg);
-      transition: all 0.6s ease;
-      z-index: 0;
-    }
-
-    .animated-button:hover::before {
       top: -50%;
       left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #00f0ff88 0%, transparent 60%);
+      transform: scale(0);
+      transition: transform 0.5s ease;
+      border-radius: 50%;
+      z-index: 0;
     }
-
-    .animated-button span {
+    .button-slice:hover::before {
+      transform: scale(1);
+    }
+    .button-slice {
       position: relative;
-      z-index: 10;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .button-slice span {
+      position: relative;
+      z-index: 2;
+    }
+    .slash-effect::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -150%;
+      width: 200%;
+      height: 4px;
+      background: #00ffff;
+      transform: rotate(-15deg);
+      transition: left 0.6s ease;
+    }
+    .slash-effect:hover::after {
+      left: 100%;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col relative">
-
-  <!-- Animated Background -->
-  <div class="animated-bg"></div>
-
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col bg-animated">
   <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 z-10 relative">
+  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
     <nav class="space-x-6 text-sm">
       <a href="index.html" class="hover:text-blue-400 transition">Home</a>
@@ -80,20 +75,19 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center z-10 relative">
-    <h1 class="text-6xl font-bold mb-6 leading-tight">Your Phone, Your Vibe</h1>
-    <p class="text-zinc-400 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="library.html" class="animated-button bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg"><span>Browse Library</span></a>
-      <a href="commissions.html" class="animated-button bg-zinc-700 hover:bg-zinc-600 text-white px-8 py-4 rounded-xl text-lg"><span>Request a Commission</span></a>
-      <a href="bundles.html" class="animated-button bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl text-lg"><span>View Bundles</span></a>
+  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center relative">
+    <h1 class="text-6xl font-bold mb-6 leading-tight tracking-tight drop-shadow-[0_5px_20px_rgba(0,255,255,0.8)]">Your Phone, Your Vibe</h1>
+    <p class="text-zinc-300 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
+    <div class="flex flex-wrap justify-center gap-6 relative z-10">
+      <a href="library.html" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg button-slice slash-effect"><span>Browse Library</span></a>
+      <a href="commissions.html" class="bg-zinc-700 hover:bg-zinc-600 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg button-slice slash-effect"><span>Request a Commission</span></a>
+      <a href="bundles.html" class="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg button-slice slash-effect"><span>View Bundles</span></a>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800 z-10 relative">
+  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800">
     © 2025 Ben Draws. All rights reserved.
   </footer>
-
 </body>
 </html>
