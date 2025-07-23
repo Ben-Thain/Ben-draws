@@ -3,236 +3,165 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ben Draws | Home - Epic Slash Test</title>
+  <title>Ben Draws | Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset and base */
-    * {
-      box-sizing: border-box;
-    }
     body {
       font-family: 'Lexend', sans-serif;
       margin: 0;
-      background: #111;
+      background: #121212;
       overflow-x: hidden;
+      transition: background 0.7s ease;
+    }
+
+    header, footer {
       position: relative;
-      min-height: 100vh;
-      color: white;
+      z-index: 10;
     }
 
-    /* Background subtle animated gradient behind everything */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(270deg, #0f172a, #1e3a8a, #0f172a);
-      background-size: 600% 600%;
-      animation: bgGradient 20s ease infinite;
-      z-index: -2;
-    }
-    @keyframes bgGradient {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    /* Header and nav styling */
     header {
-      position: relative;
-      z-index: 20;
-      border-bottom: 1px solid #333;
-      background: rgba(0,0,0,0.7);
-      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    header > div {
-      font-size: 1.75rem;
-      font-weight: 700;
-      user-select: none;
+      padding: 1rem 3rem;
+      border-bottom: 1px solid #333;
     }
     nav a {
+      margin-left: 1.5rem;
       color: white;
-      margin-left: 2rem;
       font-weight: 500;
       text-decoration: none;
       position: relative;
-      cursor: pointer;
+      z-index: 10;
       transition: color 0.3s ease;
-      user-select: none;
     }
-    nav a:hover {
-      color: #60a5fa;
+    nav a:hover, nav a:focus {
+      color: #60a5fa; /* blue-400 */
     }
 
-    /* Main content */
     main {
-      position: relative;
-      z-index: 20;
-      min-height: calc(100vh - 120px);
+      min-height: calc(100vh - 140px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 6rem 2rem;
+      padding: 5rem 2rem;
+      position: relative;
+      z-index: 10;
     }
-    main h1 {
+
+    h1 {
       font-size: 4rem;
       font-weight: 700;
       margin-bottom: 1.5rem;
       line-height: 1.1;
       user-select: none;
+      color: white;
     }
-    main p {
-      font-size: 1.375rem;
-      color: #bbb;
-      max-width: 36rem;
+
+    p {
+      font-size: 1.25rem;
       margin-bottom: 3rem;
+      color: #aaa;
+      max-width: 600px;
       user-select: none;
     }
 
-    /* Buttons container */
-    .btn-container {
+    .buttons {
       display: flex;
-      gap: 2.5rem;
+      gap: 2rem;
       flex-wrap: wrap;
       justify-content: center;
-    }
-
-    /* Buttons base */
-    .btn {
       position: relative;
-      background: #2563eb; /* blue600 default */
-      padding: 1.25rem 3rem;
-      border-radius: 2rem;
-      color: white;
-      font-weight: 600;
-      font-size: 1.25rem;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      cursor: pointer;
-      overflow: hidden;
-      transition: background-color 0.3s ease;
-      user-select: none;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       z-index: 10;
-      width: 220px;
-      text-align: center;
-      letter-spacing: 0.03em;
-    }
-    .btn-gray {
-      background: #3f3f46; /* zinc 700 */
-    }
-    .btn-purple {
-      background: #7c3aed; /* purple 600 */
     }
 
-    .btn-blue:hover {
-      background: #1e40af;
-    }
-    .btn-gray:hover {
-      background: #52525b;
-    }
-    .btn-purple:hover {
-      background: #5b21b6;
-    }
-
-    /* === BIG SLASH === */
-
-    #slash {
-      position: fixed;
-      top: 50%;
-      right: -130vw; /* start off screen right */
-      width: 180vw;
-      height: 250vh;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.18) 0%,
-          rgba(255, 255, 255, 0.55) 45%,
-          rgba(255, 255, 255, 0.55) 55%,
-          rgba(255, 255, 255, 0.18) 100%
-        );
-      transform: translateY(-50%) rotate(-28deg);
+    /* BUTTON BASE */
+    a.btn {
+      position: relative;
+      display: inline-block;
+      padding: 1.25rem 3rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border-radius: 1rem;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      overflow: visible;
+      user-select: none;
+      /* base shadows for some depth */
       box-shadow:
-        0 0 80px 30px rgba(255, 255, 255, 0.25),
-        0 0 160px 60px rgba(255, 255, 255, 0.15);
-      filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.4));
-      pointer-events: none;
-      z-index: 15;
-      transition:
-        right 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.5s ease;
-      opacity: 0;
-      will-change: right, opacity;
+        0 2px 6px rgb(0 0 0 / 0.8),
+        inset 0 0 4px rgb(255 255 255 / 0.05);
+      transition: color 0.3s ease;
     }
-    #slash.active {
-      right: 50vw; /* slide to center-ish */
+    a.btn:focus {
+      outline: 2px solid #60a5fa;
+      outline-offset: 4px;
+    }
+
+    /* COLORS */
+    a.btn.library {
+      background: #2563eb; /* blue-600 */
+    }
+    a.btn.commission {
+      background: #3f3f46; /* zinc-700 */
+    }
+    a.btn.bundle {
+      background: #7c3aed; /* purple-600 */
+    }
+
+    /* SLASH LINE */
+    .slash {
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      width: 300vw; /* super wide to cover entire page horizontally */
+      height: 12px;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.3) 40%,
+        rgba(255,255,255,0.8) 50%,
+        rgba(255,255,255,0.3) 60%,
+        rgba(255,255,255,0) 100%
+      );
+      transform: translateY(-50%) rotate(-20deg);
+      pointer-events: none;
+      transition: right 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 5;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+      opacity: 0;
+    }
+
+    /* SLASH VISIBLE WHEN HOVERED */
+    a.btn:hover .slash,
+    a.btn:focus .slash {
+      right: -210vw; /* slide fully across the button and beyond */
       opacity: 1;
       transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* Overlay for dark gradient color behind slash */
-    #colorOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 14;
-      transition: background 0.9s ease, opacity 0.8s ease;
-      mix-blend-mode: multiply;
-      opacity: 0;
-      will-change: background, opacity;
+    /* Overlay background color changes */
+    body.bg-blue {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      transition: background 0.7s ease;
     }
-    #colorOverlay.visible {
-      opacity: 0.85;
+    body.bg-gray {
+      background: linear-gradient(135deg, #1e1e1e, #3f3f46);
+      transition: background 0.7s ease;
     }
-
-    /* Footer */
-    footer {
-      position: relative;
-      z-index: 20;
-      text-align: center;
-      color: #777;
-      font-size: 0.875rem;
-      padding: 2rem 1rem;
-      border-top: 1px solid #333;
-      user-select: none;
-    }
-
-    /* Responsive tweaks */
-    @media (max-width: 600px) {
-      main h1 {
-        font-size: 3rem;
-      }
-      .btn {
-        width: 100%;
-      }
-      .btn-container {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
+    body.bg-purple {
+      background: linear-gradient(135deg, #4c1d95, #9333ea);
+      transition: background 0.7s ease;
     }
   </style>
 </head>
 <body>
-
-  <!-- Overlay color behind slash -->
-  <div id="colorOverlay"></div>
-
-  <!-- Big diagonal slash -->
-  <div id="slash"></div>
-
-  <!-- HEADER -->
   <header>
-    <div>Ben Draws</div>
+    <div style="font-weight: 700; font-size: 1.5rem; color: white;">Ben Draws</div>
     <nav>
       <a href="index.html">Home</a>
       <a href="commissions.html">Commissions</a>
@@ -241,73 +170,45 @@
     </nav>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main>
     <h1>Your Phone, Your Vibe</h1>
     <p>Original and custom phone wallpapers to make your home screen pop.</p>
-    <div class="btn-container">
-      <a href="library.html" class="btn btn-blue" data-color="blue">Browse Library</a>
-      <a href="commissions.html" class="btn btn-gray" data-color="gray">Request a Commission</a>
-      <a href="bundles.html" class="btn btn-purple" data-color="purple">View Bundles</a>
+    <div class="buttons">
+      <a href="library.html" class="btn library" onmouseenter="setBg('blue')" onmouseleave="clearBg()" tabindex="0">
+        Browse Library
+        <div class="slash"></div>
+      </a>
+      <a href="commissions.html" class="btn commission" onmouseenter="setBg('gray')" onmouseleave="clearBg()" tabindex="0">
+        Request a Commission
+        <div class="slash"></div>
+      </a>
+      <a href="bundles.html" class="btn bundle" onmouseenter="setBg('purple')" onmouseleave="clearBg()" tabindex="0">
+        View Bundles
+        <div class="slash"></div>
+      </a>
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer>
+  <footer style="text-align:center; padding: 1.5rem; color: #777; border-top: 1px solid #333;">
     © 2025 Ben Draws. All rights reserved.
   </footer>
 
   <script>
-    // Elements
-    const slash = document.getElementById('slash');
-    const overlay = document.getElementById('colorOverlay');
-
-    // Color gradients for overlay based on button hovered
-    const colors = {
-      blue: 'linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6, #60a5fa)',
-      gray: 'linear-gradient(135deg, #27272a, #3f3f46, #52525b, #71717a)',
-      purple: 'linear-gradient(135deg, #5b21b6, #7c3aed, #9333ea, #c084fc)',
-    };
-
-    // Helper to show slash and overlay
-    function activateSlash(colorKey) {
-      if (!colors[colorKey]) return;
-      overlay.style.background = colors[colorKey];
-      overlay.classList.add('visible');
-      slash.classList.add('active');
+    function setBg(color) {
+      document.body.classList.remove('bg-blue', 'bg-gray', 'bg-purple');
+      if(color === 'blue') {
+        document.body.classList.add('bg-blue');
+      } else if(color === 'gray') {
+        document.body.classList.add('bg-gray');
+      } else if(color === 'purple') {
+        document.body.classList.add('bg-purple');
+      }
     }
 
-    // Helper to hide slash and overlay
-    function deactivateSlash() {
-      slash.classList.remove('active');
-      overlay.classList.remove('visible');
-      setTimeout(() => {
-        overlay.style.background = 'transparent';
-      }, 1000); // wait for fade out
+    function clearBg() {
+      document.body.classList.remove('bg-blue', 'bg-gray', 'bg-purple');
     }
-
-    // Attach listeners to buttons
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('mouseenter', () => {
-        const color = btn.getAttribute('data-color');
-        activateSlash(color);
-      });
-      btn.addEventListener('mouseleave', () => {
-        deactivateSlash();
-      });
-    });
-
-    // Accessibility: also support keyboard focus for slash effect
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('focus', () => {
-        const color = btn.getAttribute('data-color');
-        activateSlash(color);
-      });
-      btn.addEventListener('blur', () => {
-        deactivateSlash();
-      });
-    });
   </script>
-
 </body>
 </html>
+
