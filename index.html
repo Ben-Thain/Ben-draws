@@ -1,119 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ben Draws | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ben Draws | Home - Epic Slash Test</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700&display=swap" rel="stylesheet" />
   <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Lexend', sans-serif;
+      margin: 0;
+      background: #111;
       overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      color: white;
     }
-    .bg-animated {
-      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #4e54c8);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .big-slash {
+
+    /* Background subtle animated gradient behind everything */
+    body::before {
       content: '';
       position: fixed;
-      top: -100%;
-      left: -150%;
-      width: 400%;
-      height: 300%;
-      transform: rotate(-20deg);
-      background: rgba(255,255,255,0.1);
-      z-index: 1;
-      transition: transform 1s ease, opacity 0.5s ease;
-      pointer-events: none;
-      opacity: 0;
-    }
-    body.hover-blue .big-slash {
-      background: rgba(59,130,246,0.1);
-      transform: translateX(150%) rotate(-20deg);
-      opacity: 1;
-    }
-    body.hover-gray .big-slash {
-      background: rgba(113,113,122,0.1);
-      transform: translateX(150%) rotate(-20deg);
-      opacity: 1;
-    }
-    body.hover-purple .big-slash {
-      background: rgba(147,51,234,0.1);
-      transform: translateX(150%) rotate(-20deg);
-      opacity: 1;
-    }
-    .color-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 0;
-      transition: background 0.5s ease;
+      background: linear-gradient(270deg, #0f172a, #1e3a8a, #0f172a);
+      background-size: 600% 600%;
+      animation: bgGradient 20s ease infinite;
+      z-index: -2;
+    }
+    @keyframes bgGradient {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* Header and nav styling */
+    header {
+      position: relative;
+      z-index: 20;
+      border-bottom: 1px solid #333;
+      background: rgba(0,0,0,0.7);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header > div {
+      font-size: 1.75rem;
+      font-weight: 700;
+      user-select: none;
+    }
+    nav a {
+      color: white;
+      margin-left: 2rem;
+      font-weight: 500;
+      text-decoration: none;
+      position: relative;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+    nav a:hover {
+      color: #60a5fa;
+    }
+
+    /* Main content */
+    main {
+      position: relative;
+      z-index: 20;
+      min-height: calc(100vh - 120px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 2rem;
+    }
+    main h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      user-select: none;
+    }
+    main p {
+      font-size: 1.375rem;
+      color: #bbb;
+      max-width: 36rem;
+      margin-bottom: 3rem;
+      user-select: none;
+    }
+
+    /* Buttons container */
+    .btn-container {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Buttons base */
+    .btn {
+      position: relative;
+      background: #2563eb; /* blue600 default */
+      padding: 1.25rem 3rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 600;
+      font-size: 1.25rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      cursor: pointer;
+      overflow: hidden;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      width: 220px;
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+    .btn-gray {
+      background: #3f3f46; /* zinc 700 */
+    }
+    .btn-purple {
+      background: #7c3aed; /* purple 600 */
+    }
+
+    .btn-blue:hover {
+      background: #1e40af;
+    }
+    .btn-gray:hover {
+      background: #52525b;
+    }
+    .btn-purple:hover {
+      background: #5b21b6;
+    }
+
+    /* === BIG SLASH === */
+
+    #slash {
+      position: fixed;
+      top: 50%;
+      right: -130vw; /* start off screen right */
+      width: 180vw;
+      height: 250vh;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.18) 0%,
+          rgba(255, 255, 255, 0.55) 45%,
+          rgba(255, 255, 255, 0.55) 55%,
+          rgba(255, 255, 255, 0.18) 100%
+        );
+      transform: translateY(-50%) rotate(-28deg);
+      box-shadow:
+        0 0 80px 30px rgba(255, 255, 255, 0.25),
+        0 0 160px 60px rgba(255, 255, 255, 0.15);
+      filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.4));
       pointer-events: none;
-      opacity: 0.6;
+      z-index: 15;
+      transition:
+        right 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.5s ease;
+      opacity: 0;
+      will-change: right, opacity;
     }
-    body.hover-blue .color-overlay {
-      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+    #slash.active {
+      right: 50vw; /* slide to center-ish */
+      opacity: 1;
+      transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
     }
-    body.hover-gray .color-overlay {
-      background: linear-gradient(135deg, #1e1e1e, #3f3f46);
+
+    /* Overlay for dark gradient color behind slash */
+    #colorOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 14;
+      transition: background 0.9s ease, opacity 0.8s ease;
+      mix-blend-mode: multiply;
+      opacity: 0;
+      will-change: background, opacity;
     }
-    body.hover-purple .color-overlay {
-      background: linear-gradient(135deg, #4c1d95, #9333ea);
+    #colorOverlay.visible {
+      opacity: 0.85;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      color: #777;
+      font-size: 0.875rem;
+      padding: 2rem 1rem;
+      border-top: 1px solid #333;
+      user-select: none;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      main h1 {
+        font-size: 3rem;
+      }
+      .btn {
+        width: 100%;
+      }
+      .btn-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex flex-col bg-animated relative">
-  <div class="big-slash" id="slash"></div>
-  <div id="overlay" class="color-overlay"></div>
+<body>
 
-  <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800 relative z-10">
-    <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
-    <nav class="space-x-6 text-sm">
-      <a href="index.html" class="hover:text-blue-400 transition">Home</a>
-      <a href="commissions.html" class="hover:text-blue-400 transition">Commissions</a>
-      <a href="library.html" class="hover:text-blue-400 transition">Library</a>
-      <a href="bundles.html" class="hover:text-blue-400 transition">Bundles</a>
+  <!-- Overlay color behind slash -->
+  <div id="colorOverlay"></div>
+
+  <!-- Big diagonal slash -->
+  <div id="slash"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div>Ben Draws</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="commissions.html">Commissions</a>
+      <a href="library.html">Library</a>
+      <a href="bundles.html">Bundles</a>
     </nav>
   </header>
 
-  <section class="flex-grow flex flex-col justify-center items-center px-6 py-24 text-center relative z-10">
-    <h1 class="text-6xl font-bold mb-6 leading-tight tracking-tight">Your Phone, Your Vibe</h1>
-    <p class="text-zinc-300 text-xl max-w-xl mb-12">Original and custom phone wallpapers to make your home screen pop.</p>
-    <div class="flex flex-wrap justify-center gap-6 relative z-10">
-      <a href="library.html" class="bg-blue-600 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg" onmouseover="activateEffect('blue')" onmouseout="resetEffect()">
-        Browse Library
-      </a>
-      <a href="commissions.html" class="bg-zinc-700 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg" onmouseover="activateEffect('gray')" onmouseout="resetEffect()">
-        Request a Commission
-      </a>
-      <a href="bundles.html" class="bg-purple-600 text-white px-10 py-5 rounded-2xl transition text-lg font-semibold shadow-lg" onmouseover="activateEffect('purple')" onmouseout="resetEffect()">
-        View Bundles
-      </a>
+  <!-- MAIN CONTENT -->
+  <main>
+    <h1>Your Phone, Your Vibe</h1>
+    <p>Original and custom phone wallpapers to make your home screen pop.</p>
+    <div class="btn-container">
+      <a href="library.html" class="btn btn-blue" data-color="blue">Browse Library</a>
+      <a href="commissions.html" class="btn btn-gray" data-color="gray">Request a Commission</a>
+      <a href="bundles.html" class="btn btn-purple" data-color="purple">View Bundles</a>
     </div>
-  </section>
+  </main>
 
-  <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-800 relative z-10">
+  <!-- FOOTER -->
+  <footer>
     © 2025 Ben Draws. All rights reserved.
   </footer>
 
   <script>
-    function activateEffect(color) {
-      document.body.classList.remove('hover-blue', 'hover-gray', 'hover-purple');
-      document.body.classList.add(`hover-${color}`);
+    // Elements
+    const slash = document.getElementById('slash');
+    const overlay = document.getElementById('colorOverlay');
+
+    // Color gradients for overlay based on button hovered
+    const colors = {
+      blue: 'linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6, #60a5fa)',
+      gray: 'linear-gradient(135deg, #27272a, #3f3f46, #52525b, #71717a)',
+      purple: 'linear-gradient(135deg, #5b21b6, #7c3aed, #9333ea, #c084fc)',
+    };
+
+    // Helper to show slash and overlay
+    function activateSlash(colorKey) {
+      if (!colors[colorKey]) return;
+      overlay.style.background = colors[colorKey];
+      overlay.classList.add('visible');
+      slash.classList.add('active');
     }
-    function resetEffect() {
-      document.body.classList.remove('hover-blue', 'hover-gray', 'hover-purple');
+
+    // Helper to hide slash and overlay
+    function deactivateSlash() {
+      slash.classList.remove('active');
+      overlay.classList.remove('visible');
+      setTimeout(() => {
+        overlay.style.background = 'transparent';
+      }, 1000); // wait for fade out
     }
+
+    // Attach listeners to buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        const color = btn.getAttribute('data-color');
+        activateSlash(color);
+      });
+      btn.addEventListener('mouseleave', () => {
+        deactivateSlash();
+      });
+    });
+
+    // Accessibility: also support keyboard focus for slash effect
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('focus', () => {
+        const color = btn.getAttribute('data-color');
+        activateSlash(color);
+      });
+      btn.addEventListener('blur', () => {
+        deactivateSlash();
+      });
+    });
   </script>
+
 </body>
 </html>
