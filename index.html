@@ -42,31 +42,65 @@
       transition: transform 0.3s ease;
     }
 
-    .button-hover::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 300%;
-      height: 300%;
-      background: rgba(255, 255, 255, 0.1);
-      transform: translate(-50%, -50%) scale(0);
-      border-radius: 50%;
-      transition: transform 0.5s ease;
-      z-index: 0;
-    }
-
-    .button-hover:hover::before {
-      transform: translate(-50%, -50%) scale(1);
-    }
-
     .button-hover span {
       position: relative;
       z-index: 1;
     }
+
+    /* Hand-drawn effect */
+    .button-hover::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 0.75rem;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .button-hover:hover::before {
+      opacity: 1;
+    }
+
+    /* Paintbrush trail cursor */
+    .paint-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+      mix-blend-mode: difference;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-30px) translateX(20px); }
+      100% { transform: translateY(0) translateX(0); }
+    }
   </style>
 </head>
 <body class="text-white min-h-screen flex flex-col transition-colors duration-500" id="page-body">
+  <div id="particles"></div>
+  <div class="paint-cursor" id="paintCursor"></div>
   <!-- Header -->
   <header class="flex items-center justify-between px-6 py-4 md:px-12 border-b border-zinc-800">
     <div class="text-2xl font-bold tracking-wide text-white">Ben Draws</div>
@@ -130,6 +164,24 @@
         btn.style.transform = 'translate(0, 0) scale(1)';
       });
     });
+
+    // Paintbrush cursor
+    const paintCursor = document.getElementById('paintCursor');
+    document.addEventListener('mousemove', (e) => {
+      paintCursor.style.top = e.clientY + 'px';
+      paintCursor.style.left = e.clientX + 'px';
+    });
+
+    // Floating particles
+    const particles = document.getElementById('particles');
+    for (let i = 0; i < 25; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('particle');
+      dot.style.top = Math.random() * 100 + '%';
+      dot.style.left = Math.random() * 100 + '%';
+      dot.style.animationDuration = (10 + Math.random() * 20) + 's';
+      particles.appendChild(dot);
+    }
   </script>
 </body>
 </html>
