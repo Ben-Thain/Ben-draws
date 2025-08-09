@@ -12,26 +12,36 @@
       background-color: #0f172a; /* Solid dark navy */
     }
 
-    /* Smooth fade-and-slide-in for hero title */
+    /* Bounce-in animation for hero title */
     h1.hero-title {
       opacity: 0;
-      transform: translateY(40px) scale(0.95);
-      animation: heroFadeSlide 1.2s ease-out forwards;
+      transform: translateY(50px) scale(0.9);
+      animation: heroBounceIn 1.2s cubic-bezier(.68,-0.55,.27,1.55) forwards;
     }
 
-    @keyframes heroFadeSlide {
-      to {
+    @keyframes heroBounceIn {
+      0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+      }
+      60% {
         opacity: 1;
+        transform: translateY(-10px) scale(1.05);
+      }
+      80% {
+        transform: translateY(5px) scale(0.98);
+      }
+      100% {
         transform: translateY(0) scale(1);
       }
     }
 
-    /* Slight delay for subtitle */
+    /* Subtitle fade-slide */
     p.hero-subtitle {
       opacity: 0;
       transform: translateY(20px);
       animation: heroSubtitle 1s ease-out forwards;
-      animation-delay: 0.4s;
+      animation-delay: 0.5s;
     }
 
     @keyframes heroSubtitle {
